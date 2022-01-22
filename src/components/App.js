@@ -1,8 +1,12 @@
-function App() {
+import { BrowserRouter } from "react-router-dom";
+import AppRouter from "./AppRouter";
+
+const App = ({ context }) => {
+
   return (
-    <div className="App">
-      
-    </div>
+    <BrowserRouter>
+      <AppRouter context={context} />
+    </BrowserRouter>
   );
 }
 
