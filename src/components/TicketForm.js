@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import TextField from '@mui/material/TextField';
-import { Button, PageRow } from '../styles';
 import styled from 'styled-components';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import { Controller, useForm } from "react-hook-form";
+import FormSelect from './FormSelect';
 
 const Form = styled.form`
 padding: 0 20px 53px 20px;
@@ -17,47 +15,51 @@ align-items: center;
 padding: 10px 0;
 `
 
+const InputButton = styled.input`
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 8px 20px;
+margin: ${({ margin }) => margin || 0};
+background: ${({ background }) => background || "#2F80ED"};
+border: none;
+border-radius: 8px;
+font-weight: 600;
+font-size: 14px;
+line-height: 24px;
+color: #FFFFFF;
+`
+
 const TicketForm = () => {
-    const [Priority, setPriority] = useState('');
     const [text, setText] = useState('');
+
+    const { control, handleSubmit } = useForm({
+        defaultValues: {
+            title: "",
+            priority: "",
+            text: ""
+        }
+    });
+    const onSubmit = data => console.log(data);
 
     const handleChangeText = (event) => {
         setText(event.target.value);
     };
 
-    const handleChangePriority = (event) => {
-        setPriority(event.target.value);
-    };
-
     return (
-        <Form>
+        <Form onSubmit={handleSubmit(onSubmit)}>
             <FormRow>
-                <FormControl required sx={{ m: 1, minWidth: 300 }}>
-                    <TextField
-                        required
-                        id="outlined-required"
-                        label="Ticket Title"
-                        defaultValue=""
-                    />
-                </FormControl>
-                <FormControl required sx={{ m: 1, minWidth: 300 }}>
-                    <InputLabel id="demo-simple-select-required-label">Select Priority</InputLabel>
-                    <Select
-                    labelId="demo-simple-select-required-label"
-                    id="demo-simple-select-required"
-                    value={Priority}
-                    label="Age *"
-                    onChange={handleChangePriority}
-                    fullWidth
-                    >
-                        <MenuItem value="">
-                            <em>None</em>
-                        </MenuItem>
-                        <MenuItem value={"Hight"}>High</MenuItem>
-                        <MenuItem value={"Normal"}>Normal</MenuItem>
-                        <MenuItem value={"Low"}>Low</MenuItem>
-                    </Select>
-                </FormControl>
+                
+                <Controller
+                    name="priority"
+                    control={control}
+                    render={({ field }) => {
+                        console.log(field)
+                        return <FormSelect {...field} /> }
+                    }
+                >
+                </Controller>
+                
             </FormRow>
             <FormRow>
                 <FormControl required sx={{ m: 1, minWidth: 616 }}>
@@ -66,13 +68,13 @@ const TicketForm = () => {
                         label="Multiline"
                         multiline
                         maxRows={4}
-                        value={text}
-                        onChange={handleChangeText}
+                        // value={text}
+                        // onChange={handleChangeText}
                     />
                 </FormControl>
             </FormRow>
             <FormRow>
-                <Button margin="8px">Save Details</Button>
+                <InputButton margin="8px" type="submit" value="Save Details" />
             </FormRow>
         </Form>
     );
