@@ -2,20 +2,20 @@ import { forwardRef } from "react";
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 
-const FormInput = forwardRef((props, ref) => {
-    
+const FormTextArea = forwardRef((props, ref) => {
     return (
-        <FormControl required sx={{ m: 1, minWidth: 300 }}>
+        <FormControl required sx={{ m: 1, minWidth: 616 }}>
             <TextField
-                id="outlined-required"
-                label="Ticket Title"
+                id="outlined-multiline-flexible"
+                label="Multiline"
+                multiline
+                maxRows={4}
                 value={props.value}
-                ref={ref}
                 onChange={props.onChange}
-                required
+                ref={ref}
             />
         </FormControl>
     );
 });
 
-export default FormInput;
+export default FormTextArea;

@@ -30,12 +30,12 @@ const AppRouter = ({ context }) => {
                 <Route 
                     path={TICKETS_ROUTE} 
                     exact 
-                    render={() => <TicketsPage />} 
+                    render={() => <TicketsPage context={context} />} 
                 />
                 <Route 
                     path={NEW_TICKET_ROUTE}
                     exact
-                    render={() => <NewTicketPage />}
+                    render={() => <NewTicketPage context={context} />}
                 />
                 <Redirect to={DASHBOARD_ROUTE} />
             </Switch>

@@ -1,9 +1,10 @@
-import { useState } from 'react';
-import TextField from '@mui/material/TextField';
 import styled from 'styled-components';
-import FormControl from '@mui/material/FormControl';
 import { Controller, useForm } from "react-hook-form";
 import FormSelect from './FormSelect';
+import FormInput from './FormInput';
+import FormTextArea from './FormTextArea';
+import { useSelector } from 'react-redux';
+import firebase from 'firebase';
 
 const Form = styled.form`
 padding: 0 20px 53px 20px;
@@ -30,48 +31,59 @@ line-height: 24px;
 color: #FFFFFF;
 `
 
-const TicketForm = () => {
-    const [text, setText] = useState('');
+const TicketForm = ({ context }) => {
+    const { user } = useSelector(state => state.user);
+    const { firestore } = context;
 
-    const { control, handleSubmit } = useForm({
+    const { control, handleSubmit, reset } = useForm({
         defaultValues: {
             title: "",
             priority: "",
             text: ""
         }
     });
-    const onSubmit = data => console.log(data);
 
-    const handleChangeText = (event) => {
-        setText(event.target.value);
+    const onSubmit = async data => {
+        firestore.collection('tickets').add({
+            avatar: user.avatar,
+            title: data.title,
+            created: firebase.firestore.FieldValue.serverTimestamp(),
+            updated: firebase.firestore.FieldValue.serverTimestamp(),
+            userName: user.name,
+            priority: data.priority,
+            text: data.text,
+            uid: user.uid
+        })
+        reset();
     };
 
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
             <FormRow>
-                
+                <Controller
+                    name="title"
+                    control={control}
+                    rules={{maxLength: 50}}
+                    render={({ field }) => {
+                        return <FormInput {...field} /> }
+                    }
+                />
                 <Controller
                     name="priority"
                     control={control}
                     render={({ field }) => {
-                        console.log(field)
                         return <FormSelect {...field} /> }
                     }
-                >
-                </Controller>
-                
+                />
             </FormRow>
             <FormRow>
-                <FormControl required sx={{ m: 1, minWidth: 616 }}>
-                    <TextField
-                        id="outlined-multiline-flexible"
-                        label="Multiline"
-                        multiline
-                        maxRows={4}
-                        // value={text}
-                        // onChange={handleChangeText}
-                    />
-                </FormControl>
+                <Controller 
+                    name="text"
+                    control={control}
+                    render={({ field }) => {
+                        return <FormTextArea {...field} /> }
+                    }
+                />
             </FormRow>
             <FormRow>
                 <InputButton margin="8px" type="submit" value="Save Details" />

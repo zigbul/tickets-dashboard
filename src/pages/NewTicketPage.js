@@ -4,7 +4,7 @@ import TicketForm from "../components/TicketForm";
 import UserBlock from "../components/UserBlock";
 import { PageContainer, PageContent, PageContentHeader, PageContentTitle, PageHeader, PageTitle } from "../styles";
 
-const NewTicketPage = () => {
+const NewTicketPage = ({ context }) => {
     const { user: {name, avatar} } = useSelector( state => state.user);
 
     return (
@@ -22,7 +22,7 @@ const NewTicketPage = () => {
                 <PageContentHeader>
                     <PageContentTitle>New Ticket</PageContentTitle>
                 </PageContentHeader>
-                <TicketForm />
+                <TicketForm context={context} />
             </PageContent>
         </PageContainer>
     );

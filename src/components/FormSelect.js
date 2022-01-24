@@ -1,15 +1,10 @@
-import { useState, forwardRef } from 'react';
+import { forwardRef } from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 
 const FormSelect = forwardRef((props, ref) => {
-    // const [value, setPriority] = useState('');
-
-    // const handleChangePriority = (event) => {
-    //     setPriority(event.target.value);
-    // };
 
     return (
         <FormControl required sx={{ m: 1, minWidth: 300 }}>
@@ -19,7 +14,7 @@ const FormSelect = forwardRef((props, ref) => {
                 labelId="demo-simple-select-required-label"
                 id="demo-simple-select-required"
                 value={props.value}
-                label="Age *"
+                label="Select Priority *"
                 onChange={props.onChange}
                 ref={ref}
             >
