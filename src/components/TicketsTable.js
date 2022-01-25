@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { formatDistanceToNow, format }from 'date-fns';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,6 +10,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Pagination from './Pagination';
+import { v4 as v4uuid } from 'uuid';
 
 const CellContainer = styled.div`
 display: flex;
@@ -39,6 +41,32 @@ letter-spacing: 0.1px;
 color: #C5C7CD;
 `
 
+const TablePriority = styled.div`
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 5px 12px;
+background: ${({ priority }) => {
+  switch(priority) {
+    case 'Low':
+      return "#F2C94C";
+    case 'Normal':
+      return "#29CC97";
+    case 'High':
+      return "#F12B2C";
+    default:
+      return "transparent";
+  }
+}};
+border-radius: 100px;
+letter-spacing: 0.5px;
+text-transform: uppercase;
+font-weight: bold;
+font-size: 11px;
+line-height: 14px;
+color: #FFFFFF;
+`
+
 const TicketsTable = ({ context }) => {
   const { firestore } = context;
   const [tickets, loading] = useCollectionData(
@@ -49,7 +77,7 @@ const TicketsTable = ({ context }) => {
     <div style={{ display: "flex", height: "60vh", justifyContent: "center", alignItems: "center"}}>
       <h1>Loading...</h1>
     </div>
-  )
+  );
 
   return (
     <TableContainer component={Paper}>
@@ -66,9 +94,10 @@ const TicketsTable = ({ context }) => {
         <TableBody>
           {tickets.map((ticket) => {
             console.log(ticket);
+
             return (
               <TableRow
-                key={ticket.uid}
+                key={v4uuid()}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
@@ -76,7 +105,7 @@ const TicketsTable = ({ context }) => {
                     <TableAvatar src={ticket.avatar} />
                     <div>
                       <TableText>{ticket.title}</TableText>
-                      <TableSubText>{ticket.updated.seconds}</TableSubText>
+                      <TableSubText>{formatDistanceToNow(new Date(ticket.updated.seconds * 1000))}</TableSubText>
                     </div>
                   </CellContainer>
                 </TableCell>
@@ -87,11 +116,15 @@ const TicketsTable = ({ context }) => {
                 </TableCell>
                 <TableCell>
                   <div>
-                  <TableText>{ticket.updated.seconds}</TableText>
-                  <TableSubText>{ticket.updated.seconds}</TableSubText>
+                  <TableText>{format(new Date(ticket.updated.seconds * 1000), 'PP')}</TableText>
+                  <TableSubText>{format(new Date(ticket.updated.seconds * 1000), 'p')}</TableSubText>
                   </div>
                 </TableCell>
-                <TableCell>{ticket.carbs}</TableCell>
+                <TableCell>
+                  <TablePriority priority={ticket.priority}>
+                    {ticket.priority}
+                  </TablePriority>
+                </TableCell>
                 <TableCell></TableCell>
               </TableRow>
             )})}

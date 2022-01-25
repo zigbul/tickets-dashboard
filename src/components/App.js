@@ -5,7 +5,7 @@ const App = ({ context }) => {
 
   return (
     <BrowserRouter>
-      <AppRouter context={context} />
+      <AppRouter  context={context} />
     </BrowserRouter>
   );
 }
