@@ -71,7 +71,10 @@ color: #FFFFFF;
 
 const TicketsTable = () => {
   const [sortBy, setSortBy] = React.useState('CREATED_ASC');
-  const [tickets, loading] = useTickets(sortBy);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(1);
+
+  const [tickets, loading] = useTickets(sortBy, page, rowsPerPage);
 
   const sortByCreated = () => {
     if (sortBy === 'CREATED_ASC') {
@@ -88,6 +91,15 @@ const TicketsTable = () => {
       setSortBy('PRIORITY_ASC');
     }
   }
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value));
+    setPage(0);
+  };
 
   if (loading) return (
     <div style={{ display: "flex", height: "60vh", justifyContent: "center", alignItems: "center"}}>
@@ -146,7 +158,12 @@ const TicketsTable = () => {
             )})}
         </TableBody>
       </Table>
-      <Pagination />
+      <Pagination 
+        handleChangePage={handleChangePage} 
+        page={page} 
+        rowsPerPage={rowsPerPage} 
+        handleChangeRowsPerPage={handleChangeRowsPerPage}
+      />
     </TableContainer>
   );
 }

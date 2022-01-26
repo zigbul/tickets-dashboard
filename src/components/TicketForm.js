@@ -1,10 +1,10 @@
+import firebase from "../firebase";
 import styled from 'styled-components';
 import { Controller, useForm } from "react-hook-form";
 import FormSelect from './FormSelect';
 import FormInput from './FormInput';
 import FormTextArea from './FormTextArea';
 import { useSelector } from 'react-redux';
-import firebase from 'firebase';
 
 const Form = styled.form`
 padding: 0 20px 53px 20px;
@@ -31,9 +31,8 @@ line-height: 24px;
 color: #FFFFFF;
 `
 
-const TicketForm = ({ context }) => {
+const TicketForm = () => {
     const { user } = useSelector(state => state.user);
-    const { firestore } = context;
 
     const { control, handleSubmit, reset } = useForm({
         defaultValues: {
@@ -44,7 +43,8 @@ const TicketForm = ({ context }) => {
     });
 
     const onSubmit = async data => {
-        firestore.collection('tickets').add({
+        firebase
+        .firestore.collection('tickets').add({
             avatar: user.avatar,
             title: data.title,
             created: firebase.firestore.FieldValue.serverTimestamp(),

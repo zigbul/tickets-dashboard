@@ -1,5 +1,5 @@
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { DASHBOARD_ROUTE, LOGIN_ROUTE, NEW_TICKET_ROUTE, TICKETS_ROUTE } from '../utils/constants';
+import { DASHBOARD_ROUTE, LOGIN_ROUTE, NEW_TICKET_ROUTE, TICKETS_ROUTE, SINGLE_TICKET_ROUTE } from '../utils/constants';
 import Sidebar from './Sidebar';
 import DashboardPage from '../pages/DashboardPage';
 import TicketsPage from '../pages/TicketsPage';
@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../store/userSlice';
 import NewTicketPage from '../pages/NewTicketPage';
+import SingleTicketPage from '../pages/SingleTicketPage';
 
 const AppRouter = ({ context }) => {
     const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const AppRouter = ({ context }) => {
     return user ?
     (   
         <>
-            <Sidebar context={context}/>
+            <Sidebar />
             <Switch>
                 <Route 
                     path={DASHBOARD_ROUTE} 
@@ -30,12 +31,17 @@ const AppRouter = ({ context }) => {
                 <Route 
                     path={TICKETS_ROUTE} 
                     exact 
-                    render={() => <TicketsPage context={context} />} 
+                    render={() => <TicketsPage />} 
                 />
                 <Route 
                     path={NEW_TICKET_ROUTE}
                     exact
-                    render={() => <NewTicketPage context={context} />}
+                    render={() => <NewTicketPage />}
+                />
+                <Route
+                    path={SINGLE_TICKET_ROUTE}
+                    exact
+                    render={() => <SingleTicketPage />}
                 />
                 <Redirect to={DASHBOARD_ROUTE} />
             </Switch>

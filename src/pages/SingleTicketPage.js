@@ -4,13 +4,13 @@ import TicketForm from "../components/TicketForm";
 import UserBlock from "../components/UserBlock";
 import { PageContainer, PageContent, PageContentHeader, PageContentTitle, PageHeader, PageTitle } from "../styles";
 
-const NewTicketPage = () => {
+const SingleTicketPage = () => {
     const { user: {name, avatar} } = useSelector( state => state.user);
 
     return (
         <PageContainer>
             <PageHeader>
-                <PageTitle>New Ticket</PageTitle>
+                <PageTitle>Edit Ticket</PageTitle>
                 <ThemeButtons margin="0 0 0 auto" />
                 <UserBlock 
                     margin="0 0 0 33px" 
@@ -20,7 +20,7 @@ const NewTicketPage = () => {
             </PageHeader>
             <PageContent>
                 <PageContentHeader>
-                    <PageContentTitle>New Ticket</PageContentTitle>
+                    <PageContentTitle>Editing</PageContentTitle>
                 </PageContentHeader>
                 <TicketForm />
             </PageContent>
@@ -28,4 +28,4 @@ const NewTicketPage = () => {
     );
 };
 
-export default NewTicketPage;
+export default SingleTicketPage;

@@ -8,7 +8,7 @@ const SORT_OPRIONS = {
     'PRIORITY_DESC': {column: 'priority', direction: 'desc'}
 }
 
-function useTickets(sortBy = 'CREATED_ASC') {
+function useTickets(sortBy = 'CREATED_ASC', page = 0, rowsPerPage = 1) {
     const [tickets, setTickets] = useState([]);
     const [loading, setLoading] = useState(true);
   
@@ -21,14 +21,14 @@ function useTickets(sortBy = 'CREATED_ASC') {
           const newTickets = snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data()
-          }))
+          })).slice(1 * page, page + rowsPerPage);
   
           setTickets(newTickets);
           setLoading(false);
         })
   
         return () => unsubscribe();
-    }, [sortBy]);
+    }, [sortBy, page, rowsPerPage]);
   
     return [tickets, loading];
   }
