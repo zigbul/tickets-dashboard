@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { formatDistanceToNow, format }from 'date-fns';
 import { v4 as v4uuid } from 'uuid';
 import useTickets from '../hooks/useTickets';
+import { Link } from 'react-router-dom';
+import { setCurrentTicket } from '../store/ticketSlice';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -12,6 +14,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Pagination from './Pagination';
+import { useDispatch } from 'react-redux';
 
 
 const CellContainer = styled.div`
@@ -70,6 +73,8 @@ color: #FFFFFF;
 `
 
 const TicketsTable = () => {
+  const dispatch = useDispatch();
+
   const [sortBy, setSortBy] = React.useState('CREATED_ASC');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(1);
@@ -132,7 +137,9 @@ const TicketsTable = () => {
                   <CellContainer>
                     <TableAvatar src={ticket.avatar} />
                     <div>
-                      <TableText>{ticket.title}</TableText>
+                      <TableText onClick={() => dispatch(setCurrentTicket(ticket))}>
+                        <Link to={`/tickets/${ticket.title}`}>{ticket.title}</Link>
+                      </TableText>
                       <TableSubText>{formatDistanceToNow(new Date(ticket.updated.seconds * 1000))}</TableSubText>
                     </div>
                   </CellContainer>
