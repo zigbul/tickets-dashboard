@@ -1,7 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { formatDistanceToNow, format }from 'date-fns';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { v4 as v4uuid } from 'uuid';
+import useTickets from '../hooks/useTickets';
+
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -10,7 +12,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Pagination from './Pagination';
-import { v4 as v4uuid } from 'uuid';
+
 
 const CellContainer = styled.div`
 display: flex;
@@ -67,11 +69,25 @@ line-height: 14px;
 color: #FFFFFF;
 `
 
-const TicketsTable = ({ context }) => {
-  const { firestore } = context;
-  const [tickets, loading] = useCollectionData(
-    firestore.collection('tickets').orderBy('created')
-  )
+const TicketsTable = () => {
+  const [sortBy, setSortBy] = React.useState('CREATED_ASC');
+  const [tickets, loading] = useTickets(sortBy);
+
+  const sortByCreated = () => {
+    if (sortBy === 'CREATED_ASC') {
+      setSortBy('CREATED_DESC');
+    } else {
+      setSortBy('CREATED_ASC');
+    }
+  }
+
+  const sortByPriority = () => {
+    if (sortBy === 'PRIORITY_ASC') {
+      setSortBy('PRIORITY_DESC');
+    } else {
+      setSortBy('PRIORITY_ASC');
+    }
+  }
 
   if (loading) return (
     <div style={{ display: "flex", height: "60vh", justifyContent: "center", alignItems: "center"}}>
@@ -86,8 +102,8 @@ const TicketsTable = ({ context }) => {
           <TableRow>
             <TableCell>Ticket details</TableCell>
             <TableCell>Owner name</TableCell>
-            <TableCell>Date</TableCell>
-            <TableCell>Priority</TableCell>
+            <TableCell>Date <button onClick={sortByCreated}>по дате</button></TableCell>
+            <TableCell>Priority <button onClick={sortByPriority}>по приоритету</button></TableCell>
             <TableCell></TableCell>
           </TableRow>
         </TableHead>

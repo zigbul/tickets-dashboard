@@ -6,7 +6,7 @@ import TicketsTable from '../components/TicketsTable';
 import { Link } from 'react-router-dom';
 import ViewButtons from '../components/ViewButtons';
 
-const TicketsPage = ({ context }) => {
+const TicketsPage = () => {
     const { user: {name, avatar} } = useSelector( state => state.user);
     
     return (
@@ -28,7 +28,7 @@ const TicketsPage = ({ context }) => {
                     </Link>
                     <ViewButtons />
                 </PageContentHeader>
-                <TicketsTable context={context} />
+                <TicketsTable />
             </PageContent>
         </PageContainer>
     );

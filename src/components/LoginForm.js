@@ -1,11 +1,12 @@
-import firebase from "firebase";
+import firebase from "../firebase";
 import { Container } from "../styles";
 import Button from '@mui/material/Button';
 import { useDispatch } from "react-redux";
 import { setUser } from "../store/userSlice";
 
-const LoginForm = ({ context }) => {
-    const { auth } = context;
+const auth = firebase.auth();
+
+const LoginForm = () => {
     const dispatch = useDispatch();
 
     const login = async () => {

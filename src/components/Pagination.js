@@ -10,7 +10,7 @@ const Pagination = () => {
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+    setRowsPerPage(parseInt(event.target.value, 1));
     setPage(0);
   };
 

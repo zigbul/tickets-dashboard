@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import firebase from '../firebase';
 import { DASHBOARD_ROUTE, TICKETS_ROUTE } from "../utils/constants";
 import styled from 'styled-components';
 import logo from '../assets/logo.svg';
@@ -50,9 +51,9 @@ user-select: none;
     opacity: 0.8;
 }
 `
+const auth = firebase.auth();
 
-const Sidebar = ({ context }) => {
-    const { auth } = context;
+const Sidebar = () => {
     const dispatch = useDispatch();
 
     const logOut = () => {
