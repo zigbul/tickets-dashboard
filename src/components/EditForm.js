@@ -1,10 +1,10 @@
-import firebase from "../firebase";
 import styled from 'styled-components';
 import { Controller, useForm } from "react-hook-form";
 import FormSelect from './FormSelect';
 import FormInput from './FormInput';
 import FormTextArea from './FormTextArea';
 import { useSelector } from 'react-redux';
+import writeUserData from "../hooks/useSingleTicket";
 
 const Form = styled.form`
 padding: 0 20px 53px 20px;
@@ -35,8 +35,6 @@ const EditForm = () => {
     const { user } = useSelector(state => state.user);
     const { currentTicket } = useSelector( state => state.ticket);
 
-    console.log(currentTicket)
-
     const { control, handleSubmit, reset } = useForm({
         defaultValues: {
             title: currentTicket.title,
@@ -45,7 +43,10 @@ const EditForm = () => {
         }
     });
 
-    const onSubmit = async data => {
+    const onSubmit = data => {
+        writeUserData(currentTicket.id, {...currentTicket, ...data});
+        reset();
+        console.log('saved');
     };
 
     return (

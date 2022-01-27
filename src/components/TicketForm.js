@@ -5,6 +5,8 @@ import FormSelect from './FormSelect';
 import FormInput from './FormInput';
 import FormTextArea from './FormTextArea';
 import { useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';  
+import { Redirect, useHistory } from "react-router-dom";
 
 const Form = styled.form`
 padding: 0 20px 53px 20px;
@@ -32,6 +34,7 @@ color: #FFFFFF;
 `
 
 const TicketForm = () => {
+    let history = useHistory();
     const { user } = useSelector(state => state.user);
 
     const { control, handleSubmit, reset } = useForm({
@@ -42,9 +45,11 @@ const TicketForm = () => {
         }
     });
 
-    const onSubmit = async data => {
+    const onSubmit = data => {
+        const id = uuidv4();
         firebase
-        .firestore.collection('tickets').add({
+        .firestore().collection('tickets').doc(`${id}`).set({
+            id: id,
             avatar: user.avatar,
             title: data.title,
             created: firebase.firestore.FieldValue.serverTimestamp(),
@@ -52,7 +57,8 @@ const TicketForm = () => {
             userName: user.name,
             priority: data.priority,
             text: data.text,
-            uid: user.uid
+            uid: user.uid,
+            completed: false,
         })
         reset();
     };

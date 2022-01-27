@@ -6,7 +6,7 @@ const Pagination = ({ page, handleChangePage, rowsPerPage, handleChangeRowsPerPa
   return (
     <TablePagination
       component="div"
-      count={3}
+      count={4}
       page={page}
       onPageChange={handleChangePage}
       rowsPerPage={rowsPerPage}

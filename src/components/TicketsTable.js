@@ -77,7 +77,7 @@ const TicketsTable = () => {
 
   const [sortBy, setSortBy] = React.useState('CREATED_ASC');
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(1);
+  const [rowsPerPage, setRowsPerPage] = React.useState(3);
 
   const [tickets, loading] = useTickets(sortBy, page, rowsPerPage);
 
@@ -126,7 +126,7 @@ const TicketsTable = () => {
         </TableHead>
         <TableBody>
           {tickets.map((ticket) => {
-            console.log(ticket);
+            // console.log(ticket);
 
             return (
               <TableRow
