@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';  
-import { Link } from "react-router-dom";
 
 import FormSelect from './FormSelect';
 import FormInput from './FormInput';
@@ -34,7 +33,7 @@ line-height: 24px;
 color: #FFFFFF;
 `
 
-const TicketForm = () => {
+const NewTicketForm = () => {
     const { user } = useSelector(state => state.user);
 
     const { control, handleSubmit, reset } = useForm({
@@ -98,4 +97,4 @@ const TicketForm = () => {
     );
 };
 
-export default TicketForm;
+export default NewTicketForm;

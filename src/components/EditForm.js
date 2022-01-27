@@ -3,8 +3,9 @@ import { Controller, useForm } from "react-hook-form";
 import FormSelect from './FormSelect';
 import FormInput from './FormInput';
 import FormTextArea from './FormTextArea';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import writeUserData from "../hooks/useSingleTicket";
+import { setCurrentTicket } from '../store/ticketSlice';
 
 const Form = styled.form`
 padding: 0 20px 53px 20px;
@@ -32,7 +33,7 @@ color: #FFFFFF;
 `
 
 const EditForm = () => {
-    const { user } = useSelector(state => state.user);
+    const dispatch = useDispatch();
     const { currentTicket } = useSelector( state => state.ticket);
 
     const { control, handleSubmit, reset } = useForm({
@@ -47,6 +48,7 @@ const EditForm = () => {
         writeUserData(currentTicket.id, {...currentTicket, ...data});
         reset();
         console.log('saved');
+        dispatch(setCurrentTicket({...currentTicket, ...data}));
     };
 
     return (

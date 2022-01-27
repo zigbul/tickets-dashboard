@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import ThemeButtons from "../components/ThemeButtons";
-import TicketForm from "../components/TicketForm";
+import NewTicketForm from "../components/NewTicketForm";
 import UserBlock from "../components/UserBlock";
 import { PageContainer, PageContent, PageContentHeader, PageContentTitle, PageHeader, PageTitle } from "../styles";
 
@@ -22,7 +22,7 @@ const NewTicketPage = () => {
                 <PageContentHeader>
                     <PageContentTitle>New Ticket</PageContentTitle>
                 </PageContentHeader>
-                <TicketForm />
+                <NewTicketForm />
             </PageContent>
         </PageContainer>
     );

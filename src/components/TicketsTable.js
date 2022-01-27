@@ -77,7 +77,7 @@ const TicketsTable = () => {
 
   const [sortBy, setSortBy] = React.useState('CREATED_ASC');
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(3);
+  const [rowsPerPage, setRowsPerPage] = React.useState(8);
 
   const [tickets, loading] = useTickets(sortBy);
 

@@ -8,7 +8,7 @@ const SORT_OPRIONS = {
     'PRIORITY_DESC': {column: 'priority', direction: 'desc'}
 }
 
-function useTickets(sortBy = 'CREATED_ASC', page = 0, rowsPerPage = 3) {
+function useTickets(sortBy = 'CREATED_ASC', page = 0, rowsPerPage = 8) {
     const [tickets, setTickets] = useState([]);
     const [loading, setLoading] = useState(true);
   

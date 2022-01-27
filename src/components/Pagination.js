@@ -12,7 +12,7 @@ const Pagination = ({ page, handleChangePage, rowsPerPage, handleChangeRowsPerPa
       page={page}
       onPageChange={handleChangePage}
       rowsPerPage={rowsPerPage}
-      rowsPerPageOptions={[1, 2, 3]}
+      rowsPerPageOptions={[2, 4, 8]}
       onRowsPerPageChange={handleChangeRowsPerPage}
     />
   );
