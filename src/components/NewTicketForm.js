@@ -1,12 +1,14 @@
 import firebase from "../firebase";
 import styled from 'styled-components';
 import { Controller, useForm } from "react-hook-form";
-import { useSelector } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';  
+import { useDispatch, useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
+import { setCurrentTicket } from "../store/ticketSlice";  
 
 import FormSelect from './FormSelect';
 import FormInput from './FormInput';
 import FormTextArea from './FormTextArea';
+import { useHistory } from "react-router-dom";
 
 const Form = styled.form`
 padding: 0 20px 53px 20px;
@@ -35,6 +37,8 @@ color: #FFFFFF;
 
 const NewTicketForm = () => {
     const { user } = useSelector(state => state.user);
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     const { control, handleSubmit, reset } = useForm({
         defaultValues: {
@@ -46,8 +50,7 @@ const NewTicketForm = () => {
 
     const onSubmit = data => {
         const id = uuidv4();
-        firebase
-        .firestore().collection('tickets').doc(`${id}`).set({
+        const ticketData = {
             id: id,
             avatar: user.avatar,
             title: data.title,
@@ -58,8 +61,14 @@ const NewTicketForm = () => {
             text: data.text,
             uid: user.uid,
             completed: false,
-        })
-        reset();
+        }
+
+        firebase
+        .firestore().collection('tickets').doc(`${id}`).set(ticketData)
+        .then(() => reset())
+        .then(() => dispatch(setCurrentTicket(ticketData)))
+        .then(() => history.push(`/tickets/${id}`))
+        .catch(err => console.log(err));
     };
 
     return (
