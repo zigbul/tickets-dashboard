@@ -1,12 +1,13 @@
 import firebase from "../firebase";
 import styled from 'styled-components';
 import { Controller, useForm } from "react-hook-form";
+import { useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';  
+import { Link } from "react-router-dom";
+
 import FormSelect from './FormSelect';
 import FormInput from './FormInput';
 import FormTextArea from './FormTextArea';
-import { useSelector } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';  
-import { Redirect, useHistory } from "react-router-dom";
 
 const Form = styled.form`
 padding: 0 20px 53px 20px;
@@ -34,7 +35,6 @@ color: #FFFFFF;
 `
 
 const TicketForm = () => {
-    let history = useHistory();
     const { user } = useSelector(state => state.user);
 
     const { control, handleSubmit, reset } = useForm({

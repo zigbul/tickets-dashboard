@@ -79,7 +79,7 @@ const TicketsTable = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(3);
 
-  const [tickets, loading] = useTickets(sortBy, page, rowsPerPage);
+  const [tickets, loading] = useTickets(sortBy);
 
   const sortByCreated = () => {
     if (sortBy === 'CREATED_ASC') {
@@ -162,7 +162,7 @@ const TicketsTable = () => {
                 </TableCell>
                 <TableCell></TableCell>
               </TableRow>
-            )})}
+            )}).splice(1 * page * rowsPerPage, rowsPerPage)}
         </TableBody>
       </Table>
       <Pagination 

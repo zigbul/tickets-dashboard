@@ -20,7 +20,7 @@ function useTickets(sortBy = 'CREATED_ASC', page = 0, rowsPerPage = 3) {
         .onSnapshot((snapshot) => {
           const newTickets = snapshot.docs.map((doc) => ({
             ...doc.data()
-          })).splice(1 * page * rowsPerPage, rowsPerPage);
+          }));
   
           setTickets(newTickets);
           setLoading(false);
