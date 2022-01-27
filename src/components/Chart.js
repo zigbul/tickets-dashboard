@@ -3,8 +3,6 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import dataSorter from '../utils/dataSorter';
 
 const Chart = ({ data }) => {
-  console.log(dataSorter(data));
-
   return (
     <ResponsiveContainer width="100%" aspect={3}>
       <BarChart

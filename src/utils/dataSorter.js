@@ -11,7 +11,7 @@ const dataSorter = (arr) => {
 
     arr.forEach(el => {
         const elLiveTime = Date.now() - el.created.seconds * 1000;
-        console.log(el.priority)
+
         for (let i = 0, y = 23; i <= 23; i++, y--) {
             if (elLiveTime > hours(i) && elLiveTime < hours(i + 1)) {
                 if (el.priority === 'Normal') newArr[y].normal++;

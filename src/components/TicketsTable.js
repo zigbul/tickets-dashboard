@@ -15,6 +15,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Pagination from './Pagination';
 import { useDispatch } from 'react-redux';
+import DeleteButton from './DeleteButton';
 
 
 const CellContainer = styled.div`
@@ -160,7 +161,9 @@ const TicketsTable = () => {
                     {ticket.priority}
                   </TablePriority>
                 </TableCell>
-                <TableCell></TableCell>
+                <TableCell>
+                  <DeleteButton id={ticket.id} />
+                </TableCell>
               </TableRow>
             )}).splice(1 * page * rowsPerPage, rowsPerPage)}
         </TableBody>
