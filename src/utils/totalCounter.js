@@ -2,6 +2,10 @@ const totalCounter = (arr) => {
     let totalHigh = 0;
     let totalNormal = 0;
     let totalLow = 0;
+    let total = 0;
+    let percent = 0;
+
+    if (arr.length === 0) return {totalHigh, totalNormal, totalLow, total, percent};
 
     arr.forEach(el => {
         if (el.completed === false) {
@@ -21,8 +25,8 @@ const totalCounter = (arr) => {
         }
     });
 
-    let total = totalHigh + totalNormal + totalLow;
-    const percent = total / arr.length * 100;
+    total = totalHigh + totalNormal + totalLow;
+    percent = total / arr.length * 100;
     return {totalHigh, totalNormal, totalLow, total, percent};
 }
 

@@ -1,10 +1,13 @@
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { deleteTicket } from '../store/slices/ticketSlice';
+
 import styled from 'styled-components';
-import firebase from '../firebase';
 import trash from '../assets/trash.svg';
 import done from '../assets/done.svg';
 import clear from '../assets/clear.svg';
-import { useHistory } from 'react-router-dom';
+
 
 const Wrapper = styled.div`
 display: flex;
@@ -29,19 +32,14 @@ transition: all .3s linear;
 `
 
 const DeleteButton = ({ id }) => {
+    const dispatch = useDispatch();
     const [isActive, setActive] = useState(false);
-    const history = useHistory();
-
-    const deleteTicket = (id) => {
-        firebase.firestore().collection('tickets').doc(id).delete()
-        .then(() => history.push('/dashboard'));
-    }
  
     return isActive ? 
     (
         <Wrapper>
             <TrashButton
-                onClick={() => deleteTicket(id)} 
+                onClick={() => dispatch(deleteTicket(id))} 
                 type="button" 
                 url={done} 
             />

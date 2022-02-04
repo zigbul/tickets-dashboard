@@ -1,10 +1,11 @@
+import { useDispatch } from "react-redux";
+import { removeUser } from "../store/slices/userSlice";
 import { Link } from "react-router-dom";
-import firebase from '../firebase';
+
 import { DASHBOARD_ROUTE, TICKETS_ROUTE } from "../utils/constants";
 import styled from 'styled-components';
 import logo from '../assets/logo.svg';
-import { useDispatch } from "react-redux";
-import { setUser } from "../store/userSlice";
+
 
 const SidebarContainer = styled.div`
 position: fixed;
@@ -51,16 +52,9 @@ user-select: none;
     opacity: 0.8;
 }
 `
-const auth = firebase.auth();
 
 const Sidebar = () => {
     const dispatch = useDispatch();
-
-    const logOut = () => {
-        auth.signOut();
-        dispatch(setUser(null));
-        window.localStorage.removeItem("currentUser");
-    }
 
     return (
         <SidebarContainer>
@@ -80,7 +74,7 @@ const Sidebar = () => {
                     </Link>
                 </ListItem>
             </LinkList>
-            <button onClick={logOut} type="button">Выход</button>
+            <button onClick={() => dispatch(removeUser())} type="button">Выход</button>
         </SidebarContainer>
     );
 };

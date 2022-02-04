@@ -1,11 +1,14 @@
 const FOURTEEN_DAYS = 12096e5;
 
 const counter = (arr) => {
-    const filtredArr = arr.filter( el => el.created - Date.now() <= FOURTEEN_DAYS);
-
     let high = 0;
     let normal = 0;
     let low = 0;
+    let total = 0;
+    let percent = 0;
+
+    if (arr.length === 0) return {high, normal, low, total, percent};
+    const filtredArr = arr.filter( el => el.created - Date.now() <= FOURTEEN_DAYS);
 
     filtredArr.forEach(el => {
         if (el.completed === false) {
@@ -25,8 +28,8 @@ const counter = (arr) => {
         }
     });
 
-    let total = high + normal + low;
-    const percent = total / filtredArr.length * 100;
+    total = high + normal + low;
+    percent = total / filtredArr.length * 100;
     return {high, normal, low, total, percent};
 }
 

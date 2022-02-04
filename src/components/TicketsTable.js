@@ -1,10 +1,10 @@
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { formatDistanceToNow, format }from 'date-fns';
 import { v4 as v4uuid } from 'uuid';
-import useTickets from '../hooks/useTickets';
 import { Link } from 'react-router-dom';
-import { setCurrentTicket } from '../store/ticketSlice';
+
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -14,7 +14,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Pagination from './Pagination';
-import { useDispatch } from 'react-redux';
 import DeleteButton from './DeleteButton';
 
 
@@ -74,29 +73,10 @@ color: #FFFFFF;
 `
 
 const TicketsTable = () => {
-  const dispatch = useDispatch();
+  const { tickets, loading } = useSelector(state => state.ticket);
 
-  const [sortBy, setSortBy] = React.useState('CREATED_ASC');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(8);
-
-  const [tickets, loading] = useTickets(sortBy);
-
-  const sortByCreated = () => {
-    if (sortBy === 'CREATED_ASC') {
-      setSortBy('CREATED_DESC');
-    } else {
-      setSortBy('CREATED_ASC');
-    }
-  }
-
-  const sortByPriority = () => {
-    if (sortBy === 'PRIORITY_ASC') {
-      setSortBy('PRIORITY_DESC');
-    } else {
-      setSortBy('PRIORITY_ASC');
-    }
-  }
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -120,8 +100,8 @@ const TicketsTable = () => {
           <TableRow>
             <TableCell>Ticket details</TableCell>
             <TableCell>Owner name</TableCell>
-            <TableCell>Date <button onClick={sortByCreated}>по дате</button></TableCell>
-            <TableCell>Priority <button onClick={sortByPriority}>по приоритету</button></TableCell>
+            <TableCell>Date <button onClick={() => {}}>по дате</button></TableCell>
+            <TableCell>Priority <button onClick={() => {}}>по приоритету</button></TableCell>
             <TableCell></TableCell>
           </TableRow>
         </TableHead>
@@ -138,7 +118,7 @@ const TicketsTable = () => {
                   <CellContainer>
                     <TableAvatar src={ticket.avatar} />
                     <div>
-                      <TableText onClick={() => dispatch(setCurrentTicket(ticket))}>
+                      <TableText onClick={() => {}}>
                         <Link to={`/tickets/${ticket.title}`}>{ticket.title}</Link>
                       </TableText>
                       <TableSubText>{formatDistanceToNow(new Date(ticket.updated.seconds * 1000))}</TableSubText>

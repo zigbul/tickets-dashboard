@@ -4,8 +4,6 @@ import FormSelect from './FormSelect';
 import FormInput from './FormInput';
 import FormTextArea from './FormTextArea';
 import { useDispatch, useSelector } from 'react-redux';
-import writeUserData from "../hooks/useSingleTicket";
-import { setCurrentTicket } from '../store/ticketSlice';
 
 const Form = styled.form`
 padding: 0 20px 53px 20px;
@@ -45,10 +43,9 @@ const EditForm = () => {
     });
 
     const onSubmit = data => {
-        writeUserData(currentTicket.id, {...currentTicket, ...data});
         reset();
         console.log('saved');
-        dispatch(setCurrentTicket({...currentTicket, ...data}));
+        // dispatch(setCurrentTicket({...currentTicket, ...data}));
     };
 
     return (

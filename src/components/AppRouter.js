@@ -4,45 +4,22 @@ import Sidebar from './Sidebar';
 import DashboardPage from '../pages/DashboardPage';
 import TicketsPage from '../pages/TicketsPage';
 import LoginPage from '../pages/LoginPage';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setUser } from '../store/userSlice';
 import NewTicketPage from '../pages/NewTicketPage';
 import SingleTicketPage from '../pages/SingleTicketPage';
+import useAuth from '../hooks/use-auth';
 
-const AppRouter = ({ context }) => {
-    const dispatch = useDispatch();
-    const { user } = useSelector( state => state.user);
-    
-    useEffect(() => {
-        dispatch(setUser(JSON.parse(window.localStorage.getItem("currentUser"))));
-    }, [dispatch]);
+const AppRouter = () => {
+    const { isAuth } = useAuth();
 
-    return user ?
-    (   
+    return isAuth ?
+    (
         <>
             <Sidebar />
             <Switch>
-                <Route 
-                    path={DASHBOARD_ROUTE} 
-                    exact 
-                    render={() => <DashboardPage />} 
-                />
-                <Route 
-                    path={TICKETS_ROUTE} 
-                    exact 
-                    render={() => <TicketsPage />} 
-                />
-                <Route 
-                    path={NEW_TICKET_ROUTE}
-                    exact
-                    render={() => <NewTicketPage />}
-                />
-                <Route
-                    path={SINGLE_TICKET_ROUTE}
-                    exact
-                    render={() => <SingleTicketPage />}
-                />
+                <Route exact path={DASHBOARD_ROUTE} component={DashboardPage} />
+                <Route exact path={TICKETS_ROUTE} component={TicketsPage} />
+                <Route exact path={NEW_TICKET_ROUTE} component={NewTicketPage} />
+                <Route exact path={SINGLE_TICKET_ROUTE} component={SingleTicketPage} />
                 <Redirect to={DASHBOARD_ROUTE} />
             </Switch>
         </>
@@ -50,10 +27,7 @@ const AppRouter = ({ context }) => {
     :
     (
         <Switch>
-            <Route 
-                path={LOGIN_ROUTE} 
-                exact 
-                render={() => <LoginPage context={context} />} />
+            <Route exact path={LOGIN_ROUTE} component={LoginPage} />
             <Redirect to={LOGIN_ROUTE} />
         </Switch>
     )

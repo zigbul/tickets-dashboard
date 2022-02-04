@@ -1,12 +1,9 @@
-import { BrowserRouter } from "react-router-dom";
 import AppRouter from "./AppRouter";
 
-const App = ({ context }) => {
+const App = () => {
 
   return (
-    <BrowserRouter>
-      <AppRouter  context={context} />
-    </BrowserRouter>
+      <AppRouter />
   );
 }
 

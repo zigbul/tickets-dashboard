@@ -1,8 +1,8 @@
-import LoginForm from "../components/LoginForm";
+import LoginForm from '../components/LoginForm';
 
-const LoginPage = ({ context }) => {
+const LoginPage = () => {
     return (
-        <LoginForm context={context} />
+        <LoginForm />
     );
 };
 

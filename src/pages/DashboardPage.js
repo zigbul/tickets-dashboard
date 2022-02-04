@@ -1,23 +1,31 @@
-import { PageContainer, PageHeader, PageRow, PageTitle } from '../styles';
-import { useSelector } from 'react-redux';
-import useTickets from '../hooks/useTickets';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { getTickets } from '../store/slices/ticketSlice';
 import totalCounter from '../utils/totalCounter';
 import counter from '../utils/counter';
 
+import { PageContainer, PageHeader, PageRow, PageTitle } from '../styles';
 import ThemeButtons from '../components/ThemeButtons';
 import UserBlock from '../components/UserBlock';
 import Card from '../components/Card';
 import Chart from '../components/Chart';
 
 const DashboardPage = () => {
-    const { user: {name, avatar} } = useSelector( state => state.user);
-    const [ tickets, loading ] = useTickets();
+    const dispatch = useDispatch();
+    const { currentUser: {displayName, photoURL} } = useSelector( state => state.user);
+    const { tickets, loading } = useSelector( state => state.ticket);
+
+    useEffect(() => {
+        dispatch(getTickets());
+    }, [dispatch]);
 
     if (loading) return (
         <div style={{ display: "flex", height: "60vh", justifyContent: "center", alignItems: "center"}}>
             <h1>Loading...</h1>
         </div>
     );
+
+    // console.log(new Date(Date.now() - 12096e5).toString().split(" ")[2]);
 
     return (
         <PageContainer>
@@ -26,8 +34,8 @@ const DashboardPage = () => {
                 <ThemeButtons margin="0 0 0 auto"/>
                 <UserBlock 
                     margin="0 0 0 33px" 
-                    name={name} 
-                    avatarUrl={avatar}
+                    name={displayName} 
+                    avatarUrl={photoURL}
                 />
             </PageHeader>
             <PageRow>

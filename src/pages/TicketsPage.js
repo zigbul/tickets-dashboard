@@ -1,13 +1,14 @@
-import { Button, PageContainer, PageContent, PageContentHeader, PageContentTitle, PageHeader, PageTitle } from '../styles';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+import { Button, PageContainer, PageContent, PageContentHeader, PageContentTitle, PageHeader, PageTitle } from '../styles';
 import ThemeButtons from '../components/ThemeButtons';
 import UserBlock from '../components/UserBlock';
 import TicketsTable from '../components/TicketsTable';
-import { Link } from 'react-router-dom';
 import ViewButtons from '../components/ViewButtons';
 
 const TicketsPage = () => {
-    const { user: {name, avatar} } = useSelector( state => state.user);
+    const { currentUser: {displayName, photoURL} } = useSelector(state => state.user);
     
     return (
         <PageContainer>
@@ -16,8 +17,8 @@ const TicketsPage = () => {
                 <ThemeButtons margin="0 0 0 auto"/>
                 <UserBlock 
                     margin="0 0 0 33px" 
-                    name={name} 
-                    avatarUrl={avatar}
+                    name={displayName} 
+                    avatarUrl={photoURL}
                 />
             </PageHeader>
             <PageContent>

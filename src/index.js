@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './firebase';
+import { BrowserRouter } from "react-router-dom";
 import { Provider } from 'react-redux';
 import store from './store';
 import App from './components/App';
@@ -15,9 +17,11 @@ const Global = createGlobalStyle`
 `
 
 ReactDOM.render(
+  <BrowserRouter>
     <Provider store={store}>
       <Global />
       <App />
-    </Provider>,
+    </Provider>
+  </BrowserRouter>,
   document.getElementById('root')
 );
