@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { formatDistanceToNow, format }from 'date-fns';
 import { v4 as v4uuid } from 'uuid';
 import { Link } from 'react-router-dom';
-
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -15,6 +14,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Pagination from './Pagination';
 import DeleteButton from './DeleteButton';
+import { getTickets, setCurrentTicket } from '../store/slices/ticketSlice';
 
 
 const CellContainer = styled.div`
@@ -73,10 +73,26 @@ color: #FFFFFF;
 `
 
 const TicketsTable = () => {
+  const dispatch = useDispatch();
   const { tickets, loading } = useSelector(state => state.ticket);
-
+  const { currentUser } = useSelector(state => state.user);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(8);
+  const [sortBy, setSortBy] = React.useState("TIME_DESC");
+
+  const sortByTime = () => {
+    if (sortBy === "TIME_DESC") setSortBy("TIME_ASC");
+    else setSortBy("TIME_DESC");
+  }
+
+  const sortByPriority = () => {
+    if (sortBy === "PRIORITY_ASC") setSortBy("PRIORITY_DESC");
+    else setSortBy("PRIORITY_ASC");
+  }
+
+  React.useEffect(() => {
+    dispatch(getTickets(sortBy))
+}, [dispatch, sortBy]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -100,28 +116,26 @@ const TicketsTable = () => {
           <TableRow>
             <TableCell>Ticket details</TableCell>
             <TableCell>Owner name</TableCell>
-            <TableCell>Date <button onClick={() => {}}>по дате</button></TableCell>
-            <TableCell>Priority <button onClick={() => {}}>по приоритету</button></TableCell>
+            <TableCell>Date <button onClick={sortByTime}>по дате</button></TableCell>
+            <TableCell>Priority <button onClick={sortByPriority}>по приоритету</button></TableCell>
             <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {tickets.map((ticket) => {
-            // console.log(ticket);
-
             return (
               <TableRow
                 key={v4uuid()}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 }, bgcolor: ticket.completed && "#CCFFCC" }}
               >
                 <TableCell component="th" scope="row">
                   <CellContainer>
                     <TableAvatar src={ticket.avatar} />
                     <div>
-                      <TableText onClick={() => {}}>
+                      <TableText onClick={() => dispatch(setCurrentTicket(ticket))}>
                         <Link to={`/tickets/${ticket.title}`}>{ticket.title}</Link>
                       </TableText>
-                      <TableSubText>{formatDistanceToNow(new Date(ticket.updated.seconds * 1000))}</TableSubText>
+                      <TableSubText>{formatDistanceToNow(new Date(ticket.updated.seconds  * 1000))}</TableSubText>
                     </div>
                   </CellContainer>
                 </TableCell>
@@ -142,7 +156,7 @@ const TicketsTable = () => {
                   </TablePriority>
                 </TableCell>
                 <TableCell>
-                  <DeleteButton id={ticket.id} />
+                  {(currentUser.uid === ticket.uid) && <DeleteButton id={ticket.id} />}
                 </TableCell>
               </TableRow>
             )}).splice(1 * page * rowsPerPage, rowsPerPage)}

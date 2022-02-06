@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 import { Controller, useForm } from "react-hook-form";
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from "react-router-dom";
+import { useDispatch } from 'react-redux';
 import { addNewTicket } from '../store/slices/ticketSlice';
-import { DASHBOARD_ROUTE } from '../utils/constants';
+import { useHistory } from 'react-router-dom';
 
 import FormSelect from './FormSelect';
 import FormInput from './FormInput';
@@ -49,8 +48,7 @@ const NewTicketForm = () => {
 
     const onSubmit = data => {
         dispatch(addNewTicket(data));
-        reset();
-        push(DASHBOARD_ROUTE);
+        // push('ticket/:id');
     };
 
     return (

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -6,9 +7,11 @@ import ThemeButtons from '../components/ThemeButtons';
 import UserBlock from '../components/UserBlock';
 import TicketsTable from '../components/TicketsTable';
 import ViewButtons from '../components/ViewButtons';
+import TicketCards from '../components/TicketCards';
 
 const TicketsPage = () => {
     const { currentUser: {displayName, photoURL} } = useSelector(state => state.user);
+    const [view, setView] = useState('table');
     
     return (
         <PageContainer>
@@ -27,9 +30,10 @@ const TicketsPage = () => {
                     <Link to="/tickets/new" style={{ textDecoration: "none"}}>
                         <Button margin="0 0 0 25px">New Ticket</Button>
                     </Link>
-                    <ViewButtons />
+                    <ViewButtons viewHandler={(view) => setView(view)} />
                 </PageContentHeader>
-                <TicketsTable />
+                {view === "table" && <TicketsTable />}
+                {view === "cards" && <TicketCards />}
             </PageContent>
         </PageContainer>
     );

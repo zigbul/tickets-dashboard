@@ -29,7 +29,7 @@ const counter = (arr) => {
     });
 
     total = high + normal + low;
-    percent = total / filtredArr.length * 100;
+    percent = Math.round(total / filtredArr.length * 100);
     return {high, normal, low, total, percent};
 }
 

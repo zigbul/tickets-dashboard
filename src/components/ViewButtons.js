@@ -27,14 +27,15 @@ background-color: transparent;
 background-image: url(${({ url }) => url });
 background-repeat: no-repeat;
 background-position: center;
+cursor: pointer;
 `
 
-const ViewButtons = () => {
+const ViewButtons = ({ viewHandler }) => {
     return (
         <ViewWrapper>
             <ViewText>View:</ViewText>
-            <ViewButton url={grid} />
-            <ViewButton url={column} />
+            <ViewButton url={grid} onClick={() => viewHandler('table')} />
+            <ViewButton url={column} onClick={() => viewHandler('cards')} />
         </ViewWrapper>
     )
 }

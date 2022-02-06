@@ -5,7 +5,7 @@ import UserBlock from "../components/UserBlock";
 import { PageContainer, PageContent, PageContentHeader, PageContentTitle, PageHeader, PageTitle } from "../styles";
 
 const SingleTicketPage = () => {
-    const { user: {name, avatar} } = useSelector( state => state.user);
+    const { currentUser: {displayName, photoURL} } = useSelector( state => state.user);
 
     return (
         <PageContainer>
@@ -14,8 +14,8 @@ const SingleTicketPage = () => {
                 <ThemeButtons margin="0 0 0 auto" />
                 <UserBlock 
                     margin="0 0 0 33px" 
-                    name={name} 
-                    avatarUrl={avatar}
+                    name={displayName} 
+                    avatarUrl={photoURL}
                 />
             </PageHeader>
             <PageContent>
