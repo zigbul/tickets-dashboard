@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import EditForm from "../components/EditForm";
+import Notifications from "../components/Notifications";
 import ThemeButtons from "../components/ThemeButtons";
 import UserBlock from "../components/UserBlock";
 import { PageContainer, PageContent, PageContentHeader, PageContentTitle, PageHeader, PageTitle } from "../styles";
@@ -9,6 +10,7 @@ const SingleTicketPage = () => {
 
     return (
         <PageContainer>
+            <Notifications />
             <PageHeader>
                 <PageTitle>Edit Ticket</PageTitle>
                 <ThemeButtons margin="0 0 0 auto" />

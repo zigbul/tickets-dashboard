@@ -21,7 +21,7 @@ const FormSelect = forwardRef((props, ref) => {
                 label="Select Priority *"
                 onChange={props.onChange}
                 ref={ref}
-                disabled={currentUser.uid !== currentTicket.uid}
+                disabled={currentUser.uid !== currentTicket.uid || currentTicket.completed}
             >
                 <MenuItem value={"High"}>High</MenuItem>
                 <MenuItem value={"Normal"}>Normal</MenuItem>

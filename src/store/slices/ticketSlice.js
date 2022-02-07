@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { db, ticketsCollectionRef } from '../../firebase';
-import { getDocs, doc, deleteDoc, addDoc, serverTimestamp, setDoc, query, orderBy, updateDoc } from 'firebase/firestore';
+import { getDocs, doc, deleteDoc, addDoc, serverTimestamp, query, orderBy, updateDoc } from 'firebase/firestore';
+import { toastSucces, toastError } from "../../utils/toasts";
 
 const SORT_OPTIONS = {
     "TIME_ASC": {column: 'updated', direction: 'asc'},
@@ -109,8 +110,10 @@ const ticketSlice = createSlice({
         },
         [deleteTicket.fulfilled]: (state) => {
             state.loading = false;
+            toastSucces('Ticket Successfully Deleted!');
         },
         [deleteTicket.rejected]: (state) => {
+            toastError('Cant Delete Your Ticket! :(');
             state.error = true;
         },
         [addNewTicket.pending]: (state) => {
@@ -119,10 +122,11 @@ const ticketSlice = createSlice({
         },
         [addNewTicket.fulfilled]: (state) => {
             state.loading = false;
+            toastSucces("New ticket created!");
         },
         [addNewTicket.rejected]: (state, action) => {
             state.error = true;
-            console.log(action.payload);
+            toastError("Oops, something go wrong!")
         },
         [updateTicket.pending]: (state) => {
             state.loading = true;
@@ -130,9 +134,11 @@ const ticketSlice = createSlice({
         },
         [updateTicket.fulfilled]: (state) => {
             state.loading = false;
+            toastSucces("Updated!")
         },
         [updateTicket.rejected]: (state) => {
             state.error = true;
+            toastError("Error, not updated yet!")
         }
     }
 });

@@ -4,23 +4,24 @@ import { useSelector } from "react-redux";
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 
-const FormInput = forwardRef((props, ref) => {
+const FormTextArea = forwardRef((props, ref) => {
     const { currentUser } = useSelector(state => state.user);
     const { currentTicket } = useSelector(state => state.ticket);
-    
+
     return (
-        <FormControl required sx={{ m: 1, minWidth: 300 }}>
+        <FormControl required sx={{ m: 1, minWidth: 616 }}>
             <TextField
-                id="outlined-required"
-                label="Ticket Title"
+                id="outlined-multiline-flexible"
+                label="Multiline"
+                multiline
+                maxRows={4}
                 value={props.value}
-                ref={ref}
                 onChange={props.onChange}
-                required
-                disabled={currentUser.uid !== currentTicket.uid}
+                ref={ref}
+                disabled={currentUser.uid !== currentTicket.uid || currentTicket.completed}
             />
         </FormControl>
     );
 });
 
-export default FormInput;
+export default FormTextArea;

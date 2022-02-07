@@ -1,8 +1,12 @@
 import { useSelector } from 'react-redux';
-import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { setCurrentTicket } from '../store/slices/ticketSlice';
 import { formatDistanceToNow, format }from 'date-fns';
+import { v4 as uuidv4 } from 'uuid';
+import styled from 'styled-components';
 
 import DeleteButton from './DeleteButton';
+import { Link } from 'react-router-dom';
 
 const TicketCardList = styled.ul`
 display: flex;
@@ -22,7 +26,7 @@ flex-direction: column;
 padding: 16px 22px;
 flex: 1;
 min-width: 30%;
-background: #FFFFFF;
+background: ${({ completed }) => completed ? "#CCFFCC" : "#FFFFFF"};
 box-shadow: 0px 0px 10px rgba(192, 197, 233, 0.6);
 border-radius: 4px;
 transition: all .1s linear;
@@ -53,7 +57,18 @@ const TicketPriority = styled.span`
 padding: 2px 10px;
 margin: 0 10px 0 auto;
 border-radius: 100px;
-background: #F12B2C;
+background: ${({ priority }) => {
+  switch(priority) {
+    case 'Low':
+      return "#F2C94C";
+    case 'Normal':
+      return "#29CC97";
+    case 'High':
+      return "#F12B2C";
+    default:
+      return "transparent";
+  }
+}};
 color: white;
 text-transform: uppercase;
 font-size: 10px;
@@ -80,13 +95,15 @@ margin-left: 10px;
 `
 
 const TicketCards = () => {
+    const dispatch = useDispatch();
     const { tickets } = useSelector(state => state.ticket);
+    const { currentUser } = useSelector(state => state.user);
 
     return (
         <TicketCardList>
             {tickets.map( ticket => {
                 return (
-                    <TicketCard>
+                    <TicketCard key={uuidv4()} completed={ticket.completed}>
                         <CardRow>
                             <div>
                                 <TicketDate>
@@ -96,10 +113,14 @@ const TicketCards = () => {
                                     {format(new Date(ticket.updated.seconds * 1000), 'p')}
                                 </TicketTime>
                             </div>
-                            <TicketPriority>{ticket.priority}</TicketPriority>
-                            <DeleteButton />
+                            <TicketPriority priority={ticket.priority}>
+                                {ticket.priority}
+                            </TicketPriority>
+                            {(currentUser.uid === ticket.uid) && <DeleteButton id={ticket.id} />}
                         </CardRow>
-                        <CardTitle>{ticket.title}</CardTitle>
+                        <CardTitle onClick={() => dispatch(setCurrentTicket(ticket))}>
+                            <Link to={`/tickets/${ticket.title}`}>{ticket.title}</Link>
+                        </CardTitle>
                         <TicketUpdated>{formatDistanceToNow(new Date(ticket.updated.seconds  * 1000))}</TicketUpdated>
                         <CardRow>
                             <Avatar src={ticket.photoURL} />

@@ -4,12 +4,14 @@ import ThemeButtons from "../components/ThemeButtons";
 import NewTicketForm from "../components/NewTicketForm";
 import UserBlock from "../components/UserBlock";
 import { PageContainer, PageContent, PageContentHeader, PageContentTitle, PageHeader, PageTitle } from "../styles";
+import Notifications from "../components/Notifications";
 
 const NewTicketPage = () => {
     const { currentUser: {displayName, photoURL} } = useSelector(state => state.user);
 
     return (
         <PageContainer>
+            <Notifications />
             <PageHeader>
                 <PageTitle>New Ticket</PageTitle>
                 <ThemeButtons margin="0 0 0 auto" />

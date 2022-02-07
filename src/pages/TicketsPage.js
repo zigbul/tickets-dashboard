@@ -8,6 +8,7 @@ import UserBlock from '../components/UserBlock';
 import TicketsTable from '../components/TicketsTable';
 import ViewButtons from '../components/ViewButtons';
 import TicketCards from '../components/TicketCards';
+import Notifications from '../components/Notifications';
 
 const TicketsPage = () => {
     const { currentUser: {displayName, photoURL} } = useSelector(state => state.user);
@@ -15,6 +16,7 @@ const TicketsPage = () => {
     
     return (
         <PageContainer>
+            <Notifications />
             <PageHeader>
                 <PageTitle>Tickets</PageTitle>
                 <ThemeButtons margin="0 0 0 auto"/>

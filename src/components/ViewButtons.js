@@ -1,6 +1,9 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import grid from '../assets/column-view.svg';
+import gridActive from '../assets/column-view-active.svg';
 import column from '../assets/grid-view.svg';
+import columnActive from '../assets/grid-view-active.svg';
 
 const ViewWrapper = styled.div`
 display: flex;
@@ -31,11 +34,18 @@ cursor: pointer;
 `
 
 const ViewButtons = ({ viewHandler }) => {
+    const [isActive, setIsACtive] = useState({table: true, cards: false}); 
+
+    const viewToggle = (view, state) => {
+        setIsACtive(state);
+        viewHandler(view);
+    }
+
     return (
         <ViewWrapper>
             <ViewText>View:</ViewText>
-            <ViewButton url={grid} onClick={() => viewHandler('table')} />
-            <ViewButton url={column} onClick={() => viewHandler('cards')} />
+            <ViewButton url={isActive.cards ? columnActive : column} onClick={() => viewToggle('cards', {table: false, cards: true})} />
+            <ViewButton url={isActive.table ? gridActive : grid} onClick={() => viewToggle('table', {table: true, cards: false})} />
         </ViewWrapper>
     )
 }
