@@ -1,8 +1,10 @@
 import styled, { css } from 'styled-components';
 import { Controller, useForm } from "react-hook-form";
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateTicket } from '../../store/slices/ticketSlice';
+import { deleteTicket, getSingleTicket, updateTicket } from '../../store/slices/ticketSlice';
 import { useHistory } from 'react-router-dom';
+import { TICKETS_ROUTE } from '../../utils/constants';
 
 import FormSelect from './FormSelect';
 import FormInput from './FormInput';
@@ -41,6 +43,11 @@ const EditForm = () => {
     const { push } = useHistory();
     const { currentTicket, loading } = useSelector( state => state.ticket);
     const { currentUser } = useSelector(state => state.user);
+    const { location } = useHistory()
+
+    useEffect(() => {
+        dispatch(getSingleTicket(location.state.id))
+    }, [location.state.id, dispatch]);
 
     const { control, handleSubmit } = useForm({
         defaultValues: {
@@ -60,7 +67,7 @@ const EditForm = () => {
 
     if (loading) return (
         <div style={{ display: "flex", height: "60vh", justifyContent: "center", alignItems: "center"}}>
-          <h1>Loading...</h1>
+            <h1>Loading...</h1>
         </div>
     );
 
@@ -107,6 +114,10 @@ const EditForm = () => {
                     disabled={currentTicket.uid !== currentUser.uid}
                 />}
                 {!currentTicket.completed && <InputButton 
+                    onClick={() => {
+                        dispatch(deleteTicket(currentTicket.id));
+                        push(TICKETS_ROUTE);
+                    }}
                     margin="8px 8px 8px 30px" 
                     type="button" 
                     value="Delete" 

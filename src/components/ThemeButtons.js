@@ -1,6 +1,9 @@
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import lightThemeSvg from '../assets/light-theme-button.svg';
 import darkthemeSvg from '../assets/dark-theme-button.svg';
+import { changeTheme } from '../store/slices/themeSlice';
 
 const Wrapper = styled.div`
 display: flex;
@@ -24,10 +27,17 @@ background-position: center;
 `
 
 const ThemeButtons = ({ margin }) => {
+    const { theme } = useSelector(state => state.theme);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        document.body.setAttribute('data-theme', theme);
+    }, [theme]);
+    
     return (
         <Wrapper margin={margin}>
-            <ThemeButton url={lightThemeSvg} />
-            <ThemeButton url={darkthemeSvg}/>
+            <ThemeButton url={lightThemeSvg} onClick={() => dispatch(changeTheme('light'))} />
+            <ThemeButton url={darkthemeSvg} onClick={() => dispatch(changeTheme('dark'))} />
         </Wrapper>
     );
 };

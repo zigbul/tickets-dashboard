@@ -16,7 +16,7 @@ flex-direction: column;
 min-height: 100vh;
 margin-left: 255px;
 padding: 36px 30px;
-background: #F7F8FC;
+background: var(--colors-bg);
 `
 
 export const PageHeader = styled.header`
@@ -30,7 +30,7 @@ font-weight: bold;
 font-size: 24px;
 line-height: 30px;
 letter-spacing: 0.3px;
-color: #252733;
+color: var(--colors-text);
 `
 
 export const PageRow = styled.div`

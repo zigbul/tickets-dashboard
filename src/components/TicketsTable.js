@@ -72,7 +72,7 @@ line-height: 14px;
 color: #FFFFFF;
 `
 
-const TicketsTable = () => {
+const TicketsTable = ({ search = "" }) => {
   const dispatch = useDispatch();
   const { tickets, loading } = useSelector(state => state.ticket);
   const { currentUser } = useSelector(state => state.user);
@@ -122,7 +122,7 @@ const TicketsTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {tickets.map((ticket) => {
+          {tickets.filter(tic => tic.title.toLowerCase().includes(search.toLowerCase())).map((ticket) => {
             return (
               <TableRow
                 key={v4uuid()}

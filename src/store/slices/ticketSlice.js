@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { db, ticketsCollectionRef } from '../../firebase';
-import { getDocs, doc, deleteDoc, addDoc, serverTimestamp, query, orderBy, updateDoc } from 'firebase/firestore';
+import { getDocs, doc, deleteDoc, addDoc, serverTimestamp, query, orderBy, updateDoc, setDoc, getDoc } from 'firebase/firestore';
 import { toastSucces, toastError } from "../../utils/toasts";
+import { v4 as uuidv4 } from 'uuid';
 
 const SORT_OPTIONS = {
     "TIME_ASC": {column: 'updated', direction: 'asc'},
@@ -18,10 +19,25 @@ export const getTickets = createAsyncThunk(
     }
 )
 
+export const getSingleTicket = createAsyncThunk(
+    'tickets/getSingleTicket',
+    async (id, {rejectWithValue}) => {
+        try{
+            const ticketRef = doc(db, "tickets", id);
+            const ticketSnap = await getDoc(ticketRef);
+            console.log(ticketSnap.data());
+        } catch(e) {
+            return rejectWithValue(e);
+        }
+        
+    }
+)
+
 export const addNewTicket = createAsyncThunk(
     'tickets/addNewTicket',
     async (data, {rejectWithValue, dispatch, getState}) => {
         const { currentUser } = getState().user;
+        const id = uuidv4();
         const newTicket = {
             avatar: currentUser.photoURL,
             title: data.title,
@@ -36,10 +52,9 @@ export const addNewTicket = createAsyncThunk(
             displayName: currentUser.displayName,
         }
         try {
-            await addDoc(ticketsCollectionRef, newTicket);
-            dispatch(setCurrentTicket(newTicket));
+            await setDoc(doc(ticketsCollectionRef, id), newTicket);
         } catch(e) {
-            rejectWithValue(e);
+            return rejectWithValue(e);
         }
     }
 )
@@ -51,7 +66,7 @@ export const updateTicket = createAsyncThunk(
         try {
             await updateDoc(ticketRef, {...data, updated: serverTimestamp()});
         } catch(e) {
-            rejectWithValue(e);
+            return rejectWithValue(e);
         }
     }
 )
@@ -61,9 +76,9 @@ export const deleteTicket = createAsyncThunk(
     async (id, {rejectWithValue, dispatch}) => {
         try {
             await deleteDoc(doc(db, "tickets", id));
-            dispatch(removeTicket(id))
+            dispatch(removeTicket(id));
         } catch(e) {
-            rejectWithValue(e);
+            return rejectWithValue(e);
         }
     }
 )
@@ -104,11 +119,20 @@ const ticketSlice = createSlice({
         [getTickets.rejected]: (state) => {
             state.error = true;
         },
+        [getSingleTicket.pending]: (state) => {
+            state.loading = true;
+        },
+        [getSingleTicket.fulfilled]: (state) => {
+            state.loading = false;
+        },
+        [getSingleTicket.rejected]: (state, action) => {
+            console.log(action.payload);
+        },
         [deleteTicket.pending]: (state) => {
             state.loading = true;
             state.error = false;
         },
-        [deleteTicket.fulfilled]: (state) => {
+        [deleteTicket.fulfilled]: (state, action) => {
             state.loading = false;
             toastSucces('Ticket Successfully Deleted!');
         },
@@ -120,12 +144,13 @@ const ticketSlice = createSlice({
             state.loading = true;
             state.error = false;
         },
-        [addNewTicket.fulfilled]: (state) => {
+        [addNewTicket.fulfilled]: (state, action) => {
             state.loading = false;
             toastSucces("New ticket created!");
         },
         [addNewTicket.rejected]: (state, action) => {
             state.error = true;
+            console.log(action.payload);
             toastError("Oops, something go wrong!")
         },
         [updateTicket.pending]: (state) => {
@@ -136,10 +161,11 @@ const ticketSlice = createSlice({
             state.loading = false;
             toastSucces("Updated!")
         },
-        [updateTicket.rejected]: (state) => {
+        [updateTicket.rejected]: (state, action) => {
             state.error = true;
+            console.log(action.payload);
             toastError("Error, not updated yet!")
-        }
+        },
     }
 });
 

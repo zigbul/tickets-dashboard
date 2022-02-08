@@ -94,14 +94,14 @@ const Name = styled.span`
 margin-left: 10px;
 `
 
-const TicketCards = () => {
+const TicketCards = ({ search = "" }) => {
     const dispatch = useDispatch();
     const { tickets } = useSelector(state => state.ticket);
     const { currentUser } = useSelector(state => state.user);
 
     return (
         <TicketCardList>
-            {tickets.map( ticket => {
+            {tickets.filter(tic => tic.title.toLowerCase().includes(search.toLowerCase())).map( ticket => {
                 return (
                     <TicketCard key={uuidv4()} completed={ticket.completed}>
                         <CardRow>
