@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import React, { SetStateAction, useState } from 'react';
 import styled from 'styled-components';
-import grid from '../assets/column-view.svg';
-import gridActive from '../assets/column-view-active.svg';
-import column from '../assets/grid-view.svg';
-import columnActive from '../assets/grid-view-active.svg';
+const grid = require('../assets/column-view.svg');
+const gridActive = require('../assets/column-view-active.svg');
+const column = require('../assets/grid-view.svg');
+const columnActive = require('../assets/grid-view-active.svg');
 
 const ViewWrapper = styled.div`
 display: flex;
@@ -22,7 +22,7 @@ line-height: 22px;
 color: #687A92;
 `
 
-const ViewButton = styled.button`
+const ViewButton = styled.button<{url: string}>`
 width: 24px;
 height: 24px;
 border: none;
@@ -33,10 +33,14 @@ background-position: center;
 cursor: pointer;
 `
 
-const ViewButtons = ({ viewHandler }) => {
+type Props = {
+    viewHandler: Function,
+}
+
+const ViewButtons = ({ viewHandler }: Props) => {
     const [isActive, setIsACtive] = useState({table: true, cards: false}); 
 
-    const viewToggle = (view, state) => {
+    const viewToggle = (view: string, state: SetStateAction<{ table: boolean; cards: boolean; }>) => {
         setIsACtive(state);
         viewHandler(view);
     }
