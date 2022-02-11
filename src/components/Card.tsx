@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 
 const CardBody = styled.div`
@@ -34,7 +35,13 @@ const CardPercent = styled.span`
 font-size:24px;
 `
 
-const Card = ({ title, counter, percent }) => {
+type Props = {
+    title: String,
+    counter: Number,
+    percent: Number,
+}
+
+const Card = ({ title, counter, percent }:Props) => {
     return (
         <CardBody>
             <CardTitle>{title}</CardTitle>
