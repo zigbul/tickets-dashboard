@@ -1,7 +1,8 @@
+import React from 'react';
 import { useDispatch } from "react-redux";
-import { getUser } from "../store/slices/userSlice";
+const { getUser } = require("../store/slices/userSlice");
 
-import { Container } from "../styles";
+const { Container } = require("../styles");
 import Button from '@mui/material/Button';
 
 
