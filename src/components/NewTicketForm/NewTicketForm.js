@@ -1,10 +1,8 @@
 import styled from 'styled-components';
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from 'react-redux';
-import { addNewTicket, setCurrentTicket } from '../../store/slices/ticketSlice';
+import { addNewTicket } from '../../store/slices/ticketSlice';
 import { useHistory } from 'react-router-dom';
-import { SINGLE_TICKET_ROUTE } from '../../utils/constants';
-import { v4 as uuidv4 } from 'uuid';
 
 import FormSelect from './FormSelect';
 import FormInput from './FormInput';
@@ -50,11 +48,9 @@ const NewTicketForm = () => {
     });
 
     const onSubmit = data => {
-        const id = uuidv4();
         dispatch(addNewTicket(data));
-        dispatch(setCurrentTicket(data));
         reset();
-        push({pathname: `/tickets/${data.title}`, state: {id}});
+        push({pathname: `/tickets/${data.title}`});
     };
 
     if (loading) return (

@@ -156,7 +156,7 @@ const TicketsTable = ({ search = "" }) => {
                   </TablePriority>
                 </TableCell>
                 <TableCell>
-                  {(currentUser.uid === ticket.uid) && <DeleteButton id={ticket.id} />}
+                  {((currentUser.uid === ticket.uid) && !ticket.completed) && <DeleteButton id={ticket.id} />}
                 </TableCell>
               </TableRow>
             )}).splice(1 * page * rowsPerPage, rowsPerPage)}

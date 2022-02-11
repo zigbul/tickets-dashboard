@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { db, ticketsCollectionRef } from '../../firebase';
-import { getDocs, doc, deleteDoc, addDoc, serverTimestamp, query, orderBy, updateDoc, setDoc, getDoc } from 'firebase/firestore';
+import { getDocs, doc, deleteDoc, serverTimestamp, query, orderBy, updateDoc, setDoc, getDoc } from 'firebase/firestore';
 import { toastSucces, toastError } from "../../utils/toasts";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -50,8 +50,10 @@ export const addNewTicket = createAsyncThunk(
             completed: false,
             photoURL: currentUser.photoURL,
             displayName: currentUser.displayName,
+            id,
         }
         try {
+            dispatch(setCurrentTicket(newTicket));
             await setDoc(doc(ticketsCollectionRef, id), newTicket);
         } catch(e) {
             return rejectWithValue(e);

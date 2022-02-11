@@ -116,7 +116,7 @@ const TicketCards = ({ search = "" }) => {
                             <TicketPriority priority={ticket.priority}>
                                 {ticket.priority}
                             </TicketPriority>
-                            {(currentUser.uid === ticket.uid) && <DeleteButton id={ticket.id} />}
+                            {(currentUser.uid === ticket.uid && !ticket.completed) && <DeleteButton id={ticket.id} />}
                         </CardRow>
                         <CardTitle onClick={() => dispatch(setCurrentTicket(ticket))}>
                             <Link to={`/tickets/${ticket.title}`}>{ticket.title}</Link>
