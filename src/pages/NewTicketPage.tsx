@@ -7,7 +7,7 @@ import UserBlock from "../components/UserBlock";
 const { PageContainer, PageContent, PageContentHeader, PageContentTitle, PageHeader, PageTitle } = require("../styles");
 import Notifications from "../components/Notifications";
 
-type State ={
+type State = {
     user: {
         currentUser: {
             displayName: string,
