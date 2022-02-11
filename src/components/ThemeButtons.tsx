@@ -1,18 +1,19 @@
+import React from 'react';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import lightThemeSvg from '../assets/light-theme-button.svg';
-import darkthemeSvg from '../assets/dark-theme-button.svg';
-import { changeTheme } from '../store/slices/themeSlice';
+const lightThemeSvg = require('../assets/light-theme-button.svg');
+const darkthemeSvg = require('../assets/dark-theme-button.svg');
+const { changeTheme } = require('../store/slices/themeSlice');
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{margin: string}>`
 display: flex;
 align-items: center;
 justify-content: center;
 margin: ${({ margin }) => margin || "0"};
 `
 
-const ThemeButton = styled.button`
+const ThemeButton = styled.button<{url: string}>`
 display: flex;
 width: 24px;
 height: 24px;
@@ -26,8 +27,18 @@ background-position: center;
 }
 `
 
-const ThemeButtons = ({ margin }) => {
-    const { theme } = useSelector(state => state.theme);
+type Props = {
+    margin: string,
+}
+
+type State = {
+    theme: {
+        theme: string,
+    }
+};
+
+const ThemeButtons = ({ margin }: Props) => {
+    const { theme } = useSelector((state: State) => state.theme);
     const dispatch = useDispatch();
 
     useEffect(() => {
