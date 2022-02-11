@@ -2,9 +2,23 @@ const days = (days = 1) => {
     return 24 * 60 * 60 * 1000 * days;
 }
 
-const dataSorter = (arr) => {
+type Element = {
+    created: {
+        seconds: number,
+    },
+    priority: string,
+}
+
+type NewArr = {
+    name: number,
+    normal: number,
+    high: number,
+    low: number,
+}
+
+const dataSorter = (arr: Element[]) => {
     if (arr.length === 0) return;
-    const newArr = [];
+    const newArr: NewArr[] = [];
 
     for (let i = 0; i <= 13; i++) {
         newArr.push({name: i, high: 0, normal: 0, low: 0});
