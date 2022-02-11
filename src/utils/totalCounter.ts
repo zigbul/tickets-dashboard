@@ -1,4 +1,9 @@
-const totalCounter = (arr) => {
+type Element = {
+    completed: boolean,
+    priority: string,
+}
+
+const totalCounter = (arr: Element[]) => {
     let totalHigh = 0;
     let totalNormal = 0;
     let totalLow = 0;
