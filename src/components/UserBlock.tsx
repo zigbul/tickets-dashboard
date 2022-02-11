@@ -1,6 +1,7 @@
+import React from 'react';
 import styled from 'styled-components';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{margin: string}>`
 display: flex;
 align-items: center;
 justify-content: center;
@@ -22,7 +23,13 @@ width: 58px;
 height: 44px;
 `
 
-const UserBlock = ({ margin, name, avatarUrl }) => {
+type Props = {
+    margin: string,
+    name: string,
+    avatarUrl: string,
+}
+
+const UserBlock = ({ margin, name, avatarUrl }: Props) => {
     return (
         <Wrapper margin={margin}>
             <UserName>{name}</UserName>
