@@ -42,7 +42,7 @@ padding: 30px 0;
     margin-left: 30px;
 } 
 `
-export const Button = styled.button`
+export const Button = styled.button<{ margin: string, background: string}>`
 display: flex;
 justify-content: center;
 align-items: center;
