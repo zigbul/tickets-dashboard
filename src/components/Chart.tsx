@@ -1,8 +1,16 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import dataSorter from '../utils/dataSorter';
+const dataSorter = require('../utils/dataSorter');
 
-const Chart = ({ data }) => {
+type T = {
+
+}
+
+type Props = {
+  data: Array<T>,
+}
+
+const Chart = ({ data }:Props) => {
   return (
     <ResponsiveContainer width="100%" aspect={3}>
       <BarChart

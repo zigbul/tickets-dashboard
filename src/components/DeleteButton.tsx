@@ -1,11 +1,12 @@
+import React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteTicket } from '../store/slices/ticketSlice';
+const { deleteTicket } = require('../store/slices/ticketSlice.js');
 
 import styled from 'styled-components';
-import trash from '../assets/trash.svg';
-import done from '../assets/done.svg';
-import clear from '../assets/clear.svg';
+const trash = require('../assets/trash.svg');
+const done = require('../assets/done.svg');
+const clear = require('../assets/clear.svg');
 
 
 const Wrapper = styled.div`
@@ -15,12 +16,12 @@ justify-content: center;
 user-select: none;
 `
 
-const TrashButton = styled.button`
+const TrashButton = styled.button<{url: string}>`
 width: 24px;
 height: 24px;
 border: none;
 background-color: transparent;
-background-image: url(${({url}) => url});
+background-image: url(${props => props.url});
 background-position: center;
 cursor: pointer;
 transition: all .3s linear;
@@ -30,7 +31,11 @@ transition: all .3s linear;
 }
 `
 
-const DeleteButton = ({ id }) => {
+type Props = {
+    id: string,
+}
+
+const DeleteButton = ({ id }:Props) => {
     const dispatch = useDispatch();
     const [isActive, setActive] = useState(false);
  
