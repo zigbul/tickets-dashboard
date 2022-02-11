@@ -1,6 +1,12 @@
 const FOURTEEN_DAYS = 12096e5;
 
-const counter = (arr) => {
+type Element = {
+    created: number,
+    completed: boolean,
+    priority: string,
+}
+
+const counter = (arr: Element[]) => {
     let high = 0;
     let normal = 0;
     let low = 0;
