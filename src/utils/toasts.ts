@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 
-const styles = {
+const styles: {} = {
     position: "fixed",
     top: 0,
     left: '50%',
@@ -17,5 +17,5 @@ const errorStyles = {
     background: 'tomato',
 }
 
-export const toastSucces = (message) => toast(message, {style: {...styles, ...succesStyles}});
-export const toastError = (message) => toast(message, {style: {...styles, ...errorStyles}});
+export const toastSucces = (message: string) => toast(message, {style: {...styles, ...succesStyles}});
+export const toastError = (message: string) => toast(message, {style: {...styles, ...errorStyles}});
