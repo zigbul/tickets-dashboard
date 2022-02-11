@@ -4,9 +4,25 @@ import { useSelector } from "react-redux";
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 
+type UserState = {
+    user: {
+        currentUser: {
+            uid: string | number,
+        }
+    }
+}
+
+type TicketState = {
+    ticket: {
+        currentTicket: {
+            uid: string | number,
+        }
+    }
+}
+
 const FormInput = forwardRef((props, ref) => {
-    const { currentUser } = useSelector(state => state.user);
-    const { currentTicket } = useSelector(state => state.ticket);
+    const { currentUser } = useSelector((state: UserState) => state.user);
+    const { currentTicket } = useSelector((state: TicketState) => state.ticket);
     
     return (
         <FormControl required sx={{ m: 1, minWidth: 300 }}>
