@@ -1,3 +1,4 @@
+import React from 'react';
 import { useToaster } from "react-hot-toast";
 
 const Notifications = () => {
