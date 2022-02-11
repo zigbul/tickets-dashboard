@@ -3,15 +3,10 @@ import TablePagination, { TablePaginationBaseProps, TablePaginationTypeMap } fro
 import { useSelector } from 'react-redux';
 import { DefaultComponentProps } from '@mui/material/OverridableComponent';
 
-type Ticket = {
-  length: number,
-}
-
-type Tickets = {
-  tickets: Array<Ticket>,
-}
 type State = {
-  ticket: Tickets
+  ticket: {
+    tickets: Array<{ length: number}>
+  }
 };
 
 type Props = DefaultComponentProps<TablePaginationTypeMap<{handleChangePage: React.MouseEvent<HTMLButtonElement>, handleChangeRowsPerPage: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>}, React.JSXElementConstructor<TablePaginationBaseProps>>>

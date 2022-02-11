@@ -1,13 +1,23 @@
+import React from 'react';
 import { useSelector } from "react-redux";
 
 import ThemeButtons from "../components/ThemeButtons";
-import NewTicketForm from "../components/NewTicketForm";
+const NewTicketForm = require("../components/NewTicketForm");
 import UserBlock from "../components/UserBlock";
-import { PageContainer, PageContent, PageContentHeader, PageContentTitle, PageHeader, PageTitle } from "../styles";
+const { PageContainer, PageContent, PageContentHeader, PageContentTitle, PageHeader, PageTitle } = require("../styles");
 import Notifications from "../components/Notifications";
 
+type State ={
+    user: {
+        currentUser: {
+            displayName: string,
+            photoURL: string,
+        }
+    }
+}
+
 const NewTicketPage = () => {
-    const { currentUser: {displayName, photoURL} } = useSelector(state => state.user);
+    const { currentUser: {displayName, photoURL} } = useSelector((state: State) => state.user);
 
     return (
         <PageContainer>
