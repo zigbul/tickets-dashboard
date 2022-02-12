@@ -8,7 +8,7 @@ import TextField, { TextFieldProps } from '@mui/material/TextField';
 type UserState = {
     user: {
         currentUser: {
-            uid: string | number,
+            uid: string,
         }
     }
 }
@@ -16,34 +16,36 @@ type UserState = {
 type TicketState = {
     ticket: {
         currentTicket: {
-            uid: string | number,
+            uid: string,
             completed: boolean,
         }
     }
 }
 
 type Props = {
+    name: string,
     value: string,
     onChange: any & TextFieldProps,
 }
 
-const FormInput = forwardRef((props: Props, ref: any & TextFieldProps) => {
+const FormTextArea = forwardRef((props: Props, ref: any & TextFieldProps) => {
     const { currentUser } = useSelector((state: UserState) => state.user);
     const { currentTicket } = useSelector((state: TicketState) => state.ticket);
-    
+
     return (
-        <FormControl required sx={{ m: 1, minWidth: 300 }}>
+        <FormControl required sx={{ m: 1, minWidth: 616 }}>
             <TextField
-                id="outlined-required"
-                label="Ticket Title"
+                id="outlined-multiline-flexible"
+                label="Multiline"
+                multiline
+                maxRows={4}
                 value={props.value}
-                ref={ref}
                 onChange={props.onChange}
-                required
+                ref={ref}
                 disabled={currentUser.uid !== currentTicket.uid || currentTicket.completed}
             />
         </FormControl>
     );
 });
 
-export default FormInput;
+export default FormTextArea;
