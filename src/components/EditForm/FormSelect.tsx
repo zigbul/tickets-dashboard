@@ -5,10 +5,34 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
+import { TextFieldProps } from 'material-ui';
 
-const FormSelect = forwardRef((props, ref) => {
-    const { currentUser } = useSelector(state => state.user);
-    const { currentTicket } = useSelector(state => state.ticket);
+type UserState = {
+    user: {
+        currentUser: {
+            uid: string,
+        }
+    }
+}
+
+type TicketState = {
+    ticket: {
+        currentTicket: {
+            uid: string,
+            completed: boolean,
+        }
+    }
+}
+
+type Props = {
+    name: string,
+    value: string,
+    onChange: any & TextFieldProps,
+}
+
+const FormSelect = forwardRef((props: Props, ref) => {
+    const { currentUser } = useSelector((state: UserState) => state.user);
+    const { currentTicket } = useSelector((state: TicketState) => state.ticket);
 
     return (
         <FormControl required sx={{ m: 1, minWidth: 300 }}>

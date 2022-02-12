@@ -27,7 +27,7 @@ type Props = {
     onChange: any & TextFieldProps,
 }
 
-const FormInput = forwardRef((props: Props, ref: any & TextFieldProps): ReactElement<any, string | JSXElementConstructor<any>> => {
+const FormInput = forwardRef((props: Props, ref: any & TextFieldProps) => {
     const { currentUser } = useSelector((state: UserState) => state.user);
     const { currentTicket } = useSelector((state: TicketState) => state.ticket);
     
