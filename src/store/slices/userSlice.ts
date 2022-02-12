@@ -31,34 +31,32 @@ const userSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
-        [getUser.pending]: (state) => {
+        [getUser.pending as any]: (state) => {
             state.loading = true;
             state.error = false;
         },
-        [getUser.fulfilled]: (state, action) => {
+        [getUser.fulfilled as any]: (state, action) => {
             state.currentUser = action.payload;
             state.loading = false;
             state.error = false;
         },
-        [getUser.rejected]: (state) => {
+        [getUser.rejected as any]: (state) => {
             state.loading = false;
             state.error = true;
         },
-        [removeUser.pending]: (state) => {
+        [removeUser.pending as any]: (state) => {
             state.loading = true;
             state.error = false;
         },
-        [removeUser.fulfilled]: (state) => {
+        [removeUser.fulfilled as any]: (state) => {
             state.currentUser = null;
             state.loading = false;
         },
-        [removeUser.rejected]: (state) => {
+        [removeUser.rejected as any]: (state) => {
             state.loading = false;
             state.error = true;
         }
     }
 });
-
-export const {} = userSlice.actions;
 
 export default userSlice.reducer;

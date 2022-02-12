@@ -2,9 +2,14 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { db, ticketsCollectionRef } from '../../firebase';
 import { getDocs, doc, deleteDoc, serverTimestamp, query, orderBy, updateDoc, setDoc, getDoc } from 'firebase/firestore';
 import { toastSucces, toastError } from "../../utils/toasts";
-import { v4 as uuidv4 } from 'uuid';
+const { v4 } = require('uuid');
 
-const SORT_OPTIONS = {
+const SORT_OPTIONS: {
+    "TIME_ASC": {column: string, direction: string},
+    "TIME_DESC": {column: string, direction: string},
+    "PRIORITY_ASC": {column: string, direction: string},
+    "PRIORITY_DESC": {column: string, direction: string}
+    } = {
     "TIME_ASC": {column: 'updated', direction: 'asc'},
     "TIME_DESC": {column: 'updated', direction: 'desc'},
     "PRIORITY_ASC": {column: 'priority', direction: 'asc'},
@@ -13,7 +18,9 @@ const SORT_OPTIONS = {
 
 export const getTickets = createAsyncThunk(
     'tickets/getTickets',
+    // @ts-ignore
     async (sortBy = "TIME_DESC") => {
+        // @ts-ignore
         const querySnapshot = await getDocs(query(ticketsCollectionRef, orderBy(SORT_OPTIONS[sortBy].column, SORT_OPTIONS[sortBy].direction)));
         return querySnapshot.docs.map( doc =>({...doc.data(), id: doc.id}));
     }
@@ -37,7 +44,7 @@ export const addNewTicket = createAsyncThunk(
     'tickets/addNewTicket',
     async (data, {rejectWithValue, dispatch, getState}) => {
         const { currentUser } = getState().user;
-        const id = uuidv4();
+        const id = v4();
         const newTicket = {
             avatar: currentUser.photoURL,
             title: data.title,
