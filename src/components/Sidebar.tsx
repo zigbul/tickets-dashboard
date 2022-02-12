@@ -1,10 +1,10 @@
+import React from 'react';
 import { useDispatch } from "react-redux";
-import { removeUser } from "../store/slices/userSlice";
 import { Link } from "react-router-dom";
-
 import { DASHBOARD_ROUTE, TICKETS_ROUTE } from "../utils/constants";
 import styled from 'styled-components';
-import logo from '../assets/logo.svg';
+const { removeUser } = require("../store/slices/userSlice");
+const logo = require('../assets/logo.svg');
 
 
 const SidebarContainer = styled.div`
