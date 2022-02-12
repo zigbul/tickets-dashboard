@@ -1,12 +1,14 @@
+import React from 'react';
 import styled from 'styled-components';
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from 'react-redux';
-import { addNewTicket } from '../../store/slices/ticketSlice';
 import { useHistory } from 'react-router-dom';
 
 import FormSelect from './FormSelect';
 import FormInput from './FormInput';
 import FormTextArea from './FormTextArea';
+
+const { addNewTicket } = require('../../store/slices/ticketSlice');
 
 
 const Form = styled.form`
@@ -19,7 +21,7 @@ align-items: center;
 padding: 10px 0;
 `
 
-const InputButton = styled.input`
+const InputButton = styled.input<{ margin: string, background?: string}>`
 display: flex;
 justify-content: center;
 align-items: center;
@@ -34,10 +36,16 @@ line-height: 24px;
 color: #FFFFFF;
 `
 
+type TicketState = {
+    ticket: {
+        loading: boolean,
+    }
+}
+
 const NewTicketForm = () => {
     const dispatch = useDispatch();
     const { push } = useHistory();
-    const { loading } = useSelector(state => state.ticket)
+    const { loading } = useSelector((state: TicketState) => state.ticket)
 
     const { control, handleSubmit, reset } = useForm({
         defaultValues: {
@@ -47,7 +55,7 @@ const NewTicketForm = () => {
         }
     });
 
-    const onSubmit = data => {
+    const onSubmit = (data: { title: string; }) => {
         dispatch(addNewTicket(data));
         reset();
         push({pathname: `/tickets/${data.title}`});
