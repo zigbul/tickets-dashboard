@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -11,12 +11,21 @@ import TicketCards from '../components/TicketCards';
 import Notifications from '../components/Notifications';
 import { TextField } from '@mui/material';
 
+type UserState = {
+    user: {
+        currentUser: {
+            displayName: string,
+            photoURL: string,
+        }
+    }
+}
+
 const TicketsPage = () => {
-    const { currentUser: {displayName, photoURL} } = useSelector(state => state.user);
+    const { currentUser: {displayName, photoURL} } = useSelector((state: UserState) => state.user);
     const [view, setView] = useState('table');
     const [search, setSearch] = useState('');
 
-    const handleChange = e => setSearch(e.target.value);
+    const handleChange = (e: { target: { value: React.SetStateAction<string>; }; }) => setSearch(e.target.value);
     
     return (
         <PageContainer>
@@ -52,7 +61,7 @@ const TicketsPage = () => {
                     <Link to="/tickets/new" style={{ textDecoration: "none"}}>
                         <Button margin="0 0 0 25px">New Ticket</Button>
                     </Link>
-                    <ViewButtons viewHandler={(view) => setView(view)} />
+                    <ViewButtons viewHandler={(view: React.SetStateAction<string>) => setView(view)} />
                 </PageContentHeader>
                 {view === "table" && <TicketsTable search={search} />}
                 {view === "cards" && <TicketCards search={search} />}
