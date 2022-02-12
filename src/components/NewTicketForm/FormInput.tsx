@@ -1,9 +1,14 @@
-import { forwardRef } from "react";
+import React, { forwardRef } from "react";
 
 import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
+import TextField, { TextFieldProps } from '@mui/material/TextField';
 
-const FormInput = forwardRef((props, ref) => {
+type Props = {
+    value: string,
+    onChange: any & TextFieldProps,
+}
+
+const FormInput = forwardRef((props: Props, ref: any & TextFieldProps) => {
     
     return (
         <FormControl required sx={{ m: 1, minWidth: 300 }}>
