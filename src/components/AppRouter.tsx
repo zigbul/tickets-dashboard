@@ -1,12 +1,13 @@
+import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { DASHBOARD_ROUTE, LOGIN_ROUTE, NEW_TICKET_ROUTE, TICKETS_ROUTE, SINGLE_TICKET_ROUTE } from '../utils/constants';
-import Sidebar from './Sidebar';
-import DashboardPage from '../pages/DashboardPage';
-import TicketsPage from '../pages/TicketsPage';
 import LoginPage from '../pages/LoginPage';
 import NewTicketPage from '../pages/NewTicketPage';
 import SingleTicketPage from '../pages/SingleTicketPage';
-import useAuth from '../hooks/use-auth';
+const TicketsPage = require('../pages/TicketsPage');
+const useAuth = require('../hooks/use-auth');
+const Sidebar = require('./Sidebar');
+const DashboardPage = require('../pages/DashboardPage');
 
 const AppRouter = () => {
     const { isAuth } = useAuth();
