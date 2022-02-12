@@ -1,5 +1,4 @@
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentTicket } from '../store/slices/ticketSlice';
 import { formatDistanceToNow, format }from 'date-fns';
 import { v4 as uuidv4 } from 'uuid';
@@ -20,7 +19,7 @@ letter-spacing: 0.2px;
 color: #252733;
 `
 
-const TicketCard = styled.li`
+const TicketCard = styled.li<{completed: boolean}>`
 display: flex;
 flex-direction: column;
 padding: 16px 22px;
@@ -53,7 +52,7 @@ letter-spacing: 0.1px;
 color: #C5C7CD;
 `
 
-const TicketPriority = styled.span`
+const TicketPriority = styled.span<{priority: string}>`
 padding: 2px 10px;
 margin: 0 10px 0 auto;
 border-radius: 100px;
@@ -94,10 +93,35 @@ const Name = styled.span`
 margin-left: 10px;
 `
 
+type TicketState = {
+    ticket: {
+        tickets: {
+            title: string,
+            completed: boolean,
+            updated: {
+                seconds: number
+            },
+            priority: string,
+            uid: string,
+            photoURL: string,
+            displayName: string,
+            id: string,
+        }[]
+    }
+}
+
+type UserState = {
+    user: {
+        currentUser: {
+            uid: string,
+        }
+    }
+}
+
 const TicketCards = ({ search = "" }) => {
     const dispatch = useDispatch();
-    const { tickets } = useSelector(state => state.ticket);
-    const { currentUser } = useSelector(state => state.user);
+    const { tickets } = useSelector((state: TicketState) => state.ticket);
+    const { currentUser } = useSelector((state: UserState) => state.user);
 
     return (
         <TicketCardList>
