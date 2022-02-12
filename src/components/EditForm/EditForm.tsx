@@ -1,14 +1,15 @@
+import React from 'react';
 import styled, { css } from 'styled-components';
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteTicket, setCurrentTicket, updateTicket } from '../../store/slices/ticketSlice';
 import { useHistory } from 'react-router-dom';
 import { TICKETS_ROUTE } from '../../utils/constants';
 
 import FormSelect from './FormSelect';
 import FormInput from './FormInput';
 import FormTextArea from './FormTextArea';
-import React from 'react';
+
+const { deleteTicket, setCurrentTicket, updateTicket } = require('../../store/slices/ticketSlice');
 
 const Form = styled.form`
 padding: 0 20px 53px 20px;
@@ -20,7 +21,7 @@ align-items: center;
 padding: 10px 0;
 `
 
-const InputButton = styled.input`
+const InputButton = styled.input<{ margin: string, background?: string}>`
 display: flex;
 justify-content: center;
 align-items: center;
@@ -38,11 +39,33 @@ ${({ disabled }) => disabled && css`
 `};
 `
 
+type TicketState = {
+    ticket: {
+        currentTicket: {
+            title: string,
+            priority: string,
+            text: string,
+            completed: boolean,
+            uid: string,
+            id: string,
+        },
+        loading: boolean,
+    }
+}
+
+type UserState = {
+    user: {
+        currentUser: {
+            uid: string,
+        }
+    }
+}
+
 const EditForm = () => {
     const dispatch = useDispatch();
     const { push } = useHistory();
-    const { currentTicket, loading } = useSelector( state => state.ticket);
-    const { currentUser } = useSelector(state => state.user);
+    const { currentTicket, loading } = useSelector((state: TicketState) => state.ticket);
+    const { currentUser } = useSelector((state: UserState) => state.user);
 
     const { control, handleSubmit } = useForm({
         defaultValues: {
@@ -52,7 +75,7 @@ const EditForm = () => {
         }
     });
 
-    const onSubmit = data => {
+    const onSubmit = (data: {}) => {
         dispatch(updateTicket({...currentTicket, ...data}));
         dispatch(setCurrentTicket({...currentTicket, ...data}));
     };
