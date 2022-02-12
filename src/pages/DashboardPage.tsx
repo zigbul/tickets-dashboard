@@ -1,6 +1,6 @@
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { getTickets } from '../store/slices/ticketSlice';
 import totalCounter from '../utils/totalCounter';
 import counter from '../utils/counter';
 
@@ -10,10 +10,34 @@ import UserBlock from '../components/UserBlock';
 import Card from '../components/Card';
 import Chart from '../components/Chart';
 
+const { getTickets } = require('../store/slices/ticketSlice');
+
+type UserState = {
+    user: {
+        currentUser: {
+            displayName: string,
+            photoURL: string,
+            uid: string,
+        }
+    }
+}
+
+type TicketState = {
+    ticket: {
+        tickets: {
+            completed: boolean,
+            priority: string,
+            uid: string,
+            created: number,
+        }[],
+        loading: boolean,
+    }
+}
+
 const DashboardPage = () => {
     const dispatch = useDispatch();
-    const { currentUser: {displayName, photoURL, uid } } = useSelector( state => state.user);
-    const { tickets, loading } = useSelector( state => state.ticket);
+    const { currentUser: {displayName, photoURL, uid } } = useSelector((state: UserState) => state.user);
+    const { tickets, loading } = useSelector((state: TicketState) => state.ticket);
 
     useEffect(() => {
         dispatch(getTickets())

@@ -38,7 +38,7 @@ font-size:24px;
 type Props = {
     title: String,
     counter: Number,
-    percent: Number,
+    percent?: Number,
 }
 
 const Card = ({ title, counter, percent }:Props) => {
