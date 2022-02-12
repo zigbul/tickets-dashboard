@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { formatDistanceToNow, format }from 'date-fns';
-import { v4 as v4uuid } from 'uuid';
 import { Link } from 'react-router-dom';
 
 import Table from '@mui/material/Table';
@@ -14,8 +13,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Pagination from './Pagination';
 import DeleteButton from './DeleteButton';
-import { getTickets, setCurrentTicket } from '../store/slices/ticketSlice';
 
+const { getTickets, setCurrentTicket } = require('../store/slices/ticketSlice');
+const { v4 } = require('uuid');
 
 const CellContainer = styled.div`
 display: flex;
@@ -46,7 +46,7 @@ letter-spacing: 0.1px;
 color: #C5C7CD;
 `
 
-const TablePriority = styled.div`
+const TablePriority = styled.div<{priority: string}>`
 display: flex;
 align-items: center;
 justify-content: center;
@@ -72,10 +72,36 @@ line-height: 14px;
 color: #FFFFFF;
 `
 
+type TicketState = {
+  ticket: {
+    tickets: {
+      title: string,
+      completed: boolean,
+      avatar: string,
+      updated: {
+        seconds: number,
+      },
+      userName: string,
+      priority: string,
+      uid: string,
+      id: string
+    }[],
+    loading: boolean,
+  }
+}
+
+type UserState = {
+  user: {
+    currentUser: {
+      uid: string
+    }
+  }
+}
+
 const TicketsTable = ({ search = "" }) => {
   const dispatch = useDispatch();
-  const { tickets, loading } = useSelector(state => state.ticket);
-  const { currentUser } = useSelector(state => state.user);
+  const { tickets, loading } = useSelector((state: TicketState) => state.ticket);
+  const { currentUser } = useSelector((state: UserState) => state.user);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(8);
   const [sortBy, setSortBy] = React.useState("TIME_DESC");
@@ -94,11 +120,11 @@ const TicketsTable = ({ search = "" }) => {
     dispatch(getTickets(sortBy))
 }, [dispatch, sortBy]);
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage: any = (newPage: any) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = (event: any) => {
     setRowsPerPage(parseInt(event.target.value));
     setPage(0);
   };
@@ -122,11 +148,11 @@ const TicketsTable = ({ search = "" }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {tickets.filter(tic => tic.title.toLowerCase().includes(search.toLowerCase())).map((ticket) => {
+          {tickets.filter((tic) => tic.title.toLowerCase().includes(search.toLowerCase())).map((ticket) => {
             return (
               <TableRow
-                key={v4uuid()}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 }, bgcolor: ticket.completed && "#CCFFCC" }}
+                key={v4()}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 }, bgcolor: ticket.completed && "#CCFFCC" } as any}
               >
                 <TableCell component="th" scope="row">
                   <CellContainer>
@@ -162,12 +188,13 @@ const TicketsTable = ({ search = "" }) => {
             )}).splice(1 * page * rowsPerPage, rowsPerPage)}
         </TableBody>
       </Table>
+      {// @ts-ignore
       <Pagination 
         handleChangePage={handleChangePage} 
         page={page} 
         rowsPerPage={rowsPerPage} 
         handleChangeRowsPerPage={handleChangeRowsPerPage}
-      />
+      />}
     </TableContainer>
   );
 }

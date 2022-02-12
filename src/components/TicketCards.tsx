@@ -1,11 +1,13 @@
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCurrentTicket } from '../store/slices/ticketSlice';
 import { formatDistanceToNow, format }from 'date-fns';
-import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
 
 import DeleteButton from './DeleteButton';
 import { Link } from 'react-router-dom';
+
+const { v4 } = require('uuid');
+const { setCurrentTicket } = require('../store/slices/ticketSlice');
 
 const TicketCardList = styled.ul`
 display: flex;
@@ -127,7 +129,7 @@ const TicketCards = ({ search = "" }) => {
         <TicketCardList>
             {tickets.filter(tic => tic.title.toLowerCase().includes(search.toLowerCase())).map( ticket => {
                 return (
-                    <TicketCard key={uuidv4()} completed={ticket.completed}>
+                    <TicketCard key={v4()} completed={ticket.completed}>
                         <CardRow>
                             <div>
                                 <TicketDate>
