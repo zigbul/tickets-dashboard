@@ -1,8 +1,9 @@
+import React, { JSXElementConstructor, ReactElement } from "react";
 import { forwardRef } from "react";
 import { useSelector } from "react-redux";
 
 import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
+import TextField, { TextFieldProps } from '@mui/material/TextField';
 
 type UserState = {
     user: {
@@ -16,11 +17,17 @@ type TicketState = {
     ticket: {
         currentTicket: {
             uid: string | number,
+            completed: boolean,
         }
     }
 }
 
-const FormInput = forwardRef((props, ref) => {
+type Props = {
+    value: string,
+    onChange: any & TextFieldProps,
+}
+
+const FormInput = forwardRef((props: Props, ref: any & TextFieldProps): ReactElement<any, string | JSXElementConstructor<any>> => {
     const { currentUser } = useSelector((state: UserState) => state.user);
     const { currentTicket } = useSelector((state: TicketState) => state.ticket);
     
